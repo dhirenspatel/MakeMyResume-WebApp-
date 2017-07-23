@@ -1,0 +1,23 @@
+6-12-13
+
+alter table EmployeeSkill
+alter column Skill nvarchar(300) null
+
+
+/*******Make 'Email' to unique of Employee table*******/
+
+Right Clike -> Indexes/Keys -> Add -> Set 'Is Unique' to 'Yes'
+
+
+/*************20-12-13***************/
+alter table Employee
+add Title nvarchar(10) null
+
+alter table Employee
+add MiddleName nvarchar(50) null
+
+alter table Employeement
+add FromMonth nvarchar(10) null
+
+alter table Employeement
+add ToMonth nvarchar(10) null

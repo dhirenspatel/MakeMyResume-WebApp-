@@ -1,0 +1,344 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create Online Graphically awesome resume in 2 minute and apply with link rather than doc and pdf file. it is very convenient for employer to see resume online instead of download and viewing in Microsoft office.">
+    <meta name="author" content="">
+
+    <title>resumemkr.in - Create your Digital Resume</title>
+
+    <!-- Bootstrap core CSS -->
+  @* @Styles.Render("~/Content/css")
+  *@
+
+     <!-- Bootstrap core CSS -->
+   <link href="/Content/css/bootstrap.css" rel="stylesheet"/>
+<link href="/Content/css/bootstrap-theme.css" rel="stylesheet"/>
+<link href="/Content/site.css" rel="stylesheet"/>
+
+  
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <!-- Raleway Font -->
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300' rel='stylesheet' type='text/css'>
+        
+    <!-- Stylesheet -->
+    <link href="/Content/Homestyle.css" rel="stylesheet" />
+
+
+  </head>
+
+  <body data-spy="scroll" data-target="#navbar" data-offset="70">
+    <div id="navbar" class="navbar navbar-default">
+      <div class="fixed-container">      
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+            <div class="raw">
+                <a class="navbar-brand" href="#home">
+                    <img src="~/Content/images/logo.png" style="height: 30px;" />
+                    | <small style="color: #d35400">Save Papers, Save Bandwidth</small> </a>
+            </div>
+          
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav pull-right">
+          	<li><a href="#home">Home</a></li>
+            <li><a href="#howitwork">How It Work</a></li>
+            <li><a href="#signup"> Login</a></li>
+            @*<li><a href="#work"> Contact</a></li> *@
+          </ul>
+        </div> 
+      </div>
+    </div>
+
+    
+    <!-- Features Section -->
+    <div id="home" class="section welcome">
+     <!-- <img class="background" src="~/Content/images/stream_blur2.jpg" alt="stream blurred">-->
+      <div class="container">
+        <div class="content">
+          <span class="logo glyphicon"><img src="~/Content/images/logo.png"></span>
+          <h1 style="margin-bottom:70px">Create Your Digital Resume</h1>
+          <a class="scroll-down btn main-color" href="#howitwork">How it works?</a>
+          <a class="scroll-down btn signup" href="#signup"> I am Ready! </a><br />
+          <a class="scroll-down" href="#howitwork"><i class="icon-angle-down" style="color:#34495e;"></i></a>
+        </div><!-- /.content -->
+      </div>
+    </div><!-- /.container -->
+
+    <!-- How it work Section -->
+    <div id="howitwork" class="section">
+      <div class="fixed-container">
+        
+        <div class="content team">
+          <h1>How it works?</h1>
+          <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <h2>Create</h2>
+              <h3 class="italic">Your Resume</h3>
+              <div class="portrait">
+                <img style=" background-position:center;" src="~/Content/images/join.jpg">               
+              </div>
+              <p>Just fill up required detail and your digital resume will be ready in minute.</p>
+             
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <h2>Apply</h2>
+              <h3 class="italic">For Job</h3>
+              <div class="portrait">
+                <img src="~/Content/images/apply.png">                
+              </div>
+              <p>Apply using link rather then pdf or word file. it is convenient for employee and employer both.</p>
+            
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <h2>Insight</h2>
+              <h3 class="italic">About Stats</h3>
+              <div class="portrait">
+                <img style=" background-position:center;" src="~/Content/images/mini-graph1.png">              
+              </div>
+              <p>know statistics about resume like impression, click etc</p>
+           
+            </div>
+              
+          </div> 
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                    <a class="scroll-down btn btn-lg signup" href="#signup">I am Ready! </a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+ <!--  ====================== Login or sign up start=========================-->
+
+ <div id="signup" class="section" style="background-color:#ecf0f1;">
+      <div class="fixed-container">        
+        <div class="content">
+          <h1>Join Us</h1>
+            <div class="row">   
+                 
+                 <!-- Alignment -->
+                    <div class="col-sm-offset-3 col-sm-6">
+                       <!-- Form itself -->
+                      <form name="sentMessage" action="/Home/Index" class="well" method="post" id="loginForm"  novalidate>
+                          @if(ViewBag.error!=null)
+                          {
+                           <div id="btnLoginMsg" class="alert alert-danger">@ViewBag.error</div>
+                          }
+                             <div class="control-group">
+                                <div class="controls">
+                                    <input type="email" class="form-control" placeholder="Email" id="Email" name="Email" required
+                                                          data-validation-required-message="Please enter your email" />
+                                    <span class="err-email" style="display:none;color:red;font-style:italic"></span>
+                                      <p class="help-block"></p>
+                               </div>
+                             </div>  
+                                    
+                            <div class="control-group">
+                              <div class="controls">
+                                    <input type="password" class="form-control" placeholder="Password" name="Password" id="Password" required
+                                                          data-validation-required-message="Please enter your password" />
+                                  
+                                  <span class="err-pwd" style="display:none;color:red;font-style:italic"></span>
+                              </div>
+                            </div>         
+                                  
+                                         
+                         <div id="success"> </div> <!-- For success/fail messages -->
+                         
+                            <div class="control-group">
+                                <div class="controls">
+                                <br>
+                                <center>
+                                <button type="submit" id="btnLogin" class="btn btn-primaryt btn-lg signup" style="font-size:24px"> Get In </button> 
+                                </center>
+                                </div>
+                            </div>
+                      </form>
+                    </div>               
+
+            </div>
+            
+            <h2 class="text-center">OR</h2> 
+                       <br>
+             <div class="row">
+              <center>
+              		 <button class="btn btn-facebook" id="btnFacebook"><i class="icon-facebook"></i> | Join with Facebook</button>
+             		 @*<button class="btn btn-linkedin"><i class="icon-linkedin"></i> | Join with LinkedIn</button>
+             		 <button class="btn btn-google-plus"><i class="icon-google-plus"></i> | Join with Google</button>*@
+              </center> 
+            </div>
+            
+            <div class="row">
+           
+              
+            </div>
+            
+        </div>
+      </div>
+ </div>
+    
+   <!--  ====================== Login or sign up start=========================-->  
+    
+    <div class="footer">
+      <div class="fixed-container">
+        
+        <div class="row">
+          <div class="empty col-md-2 col-sm-2 col-xs-12"></div>
+          <div class="col-md-3 col-sm-3 col-xs-12">
+            <h3>links</h3>
+            <ul>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Blog</a></li>              
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+          <div class="col-md-5 col-sm-5 col-xs-12">
+            <h3>about us</h3>
+            <p>
+              We are trying to make process of creating and applying resume online rather than pdf or word file. 
+            </p>
+            <div class="social-media">
+              <a href="#" data-toggle="tooltip" title="twitter"><i class="icon-twitter"></i></a>
+              <a href="http://facebook.com/meraRESU.ME" data-toggle="tooltip" title="facebook"><i class="icon-facebook"></i></a>
+              <a href="#" data-toggle="tooltip" title="linkedin"><i class="icon-linkedin"></i></a>
+              <a href="#" data-toggle="tooltip" title="github"><i class="icon-github"></i></a>
+              <a href="#" data-toggle="tooltip" title="pinterest"><i class="icon-pinterest"></i></a>
+            </div>
+            
+          </div>
+          <div class="empty col-md-2 col-sm-2 col-xs-12"></div>
+        </div>
+        <div class="row">
+          <div class="empty col-md-2 col-sm-2 col-xs-12"></div>
+          <div class="empty col-md-8 col-sm-8 col-xs-12"><hr /></div>
+          <div class="empty col-md-2 col-sm-2 col-xs-12"></div>
+        </div>
+      </div>
+      
+      <p class="copyright">
+        &copy; Powered by <a href=""></a>
+      </p>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+     @Scripts.Render("~/bundles/jquery")
+      @Scripts.Render("~/bundles/bootstrap")
+      <script src="~/Content/js/init.js"></script>
+
+      
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-46196298-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+
+    </script>
+
+  </body> 
+</html>
+
+<script type="text/javascript">
+
+    $("#loginForm").keypress(function (e) {
+        if (e.keyCode == "13") {
+            $("#btnLogin").click();
+        }
+    });
+
+    $("#btnLogin").click(function () {
+        var email = $("#Email").val();
+        var password = $("#Password").val();
+        var flag = true;
+
+        if (email == "") {
+            flag = false;
+            $("#Email").css("border", "1px solid red");
+            $(".err-email").text("").fadeOut();
+        }
+        else {
+            if (!isValidEmailAddress(email)) {
+                flag = false;
+                $("#Email").css("border", "1px solid red");
+                $(".err-email").text("Enter valid email").fadeIn();
+            }
+            else {
+                $("#Email").css("border", "none");
+                $(".err-email").text("").fadeOut();
+            }
+            
+        }
+
+        if (password == "") {
+            flag = false;
+            $("#Password").css("border", "1px solid red");
+            $(".err-pwd").text("").fadeOut();
+        }
+        else {
+            if (password.length < 6) {
+                flag = false;
+                $("#Password").css("border", "1px solid red");
+                $(".err-pwd").text("Password Length must be 6 minimum character").fadeIn();
+            }
+            else {
+                $("#Password").css("border", "none");
+                $(".err-pwd").text("").fadeOut();
+            }
+            
+        }
+        
+        if (!flag) {
+            return false;
+            //$.getJSON("/Home/LogInOrSignUp", { email: email, pwd: password },
+            //        function (data) {
+            //            if (data > 0) {
+            //                window.location = "/Home/SetSession/" + data;
+            //            }
+            //            else {
+            //                $("#btnLoginMsg").html("Username and password may be wrong").fadeIn();
+            //                $("#btnLogin").removeAttr("disabled", "disabled");
+            //            }
+
+            //        });
+        }
+        else {
+            //$(this).attr("disabled", "disabled");
+          //  return true;
+        }
+    });
+
+    function isValidEmailAddress(emailAddress) {
+        var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
+        return pattern.test(emailAddress);
+    };
+
+
+    $("#btnFacebook").click(function () {
+        $(this).attr("disabled", "disabled");
+        window.location = "/Home/LoginWithFacebook";
+    });
+
+</script>
+

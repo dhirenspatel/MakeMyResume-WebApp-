@@ -1,0 +1,715 @@
+﻿@model meraRESU.ME.Models.Employee
+
+
+@{
+    ViewBag.Title = "Resume";
+    string fileName = string.Empty;
+    string extension = string.Empty;
+    string profileImage = string.Empty;
+}
+<div id="navbar" class="navbar navbar-default">
+    <div class="fixed-container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="raw">
+                <a class="navbar-brand" href="/">
+                    <img src="~/Content/images/logo.png" style="height: 30px;" />
+                    | <small style="color: #d35400">Save Papers, Save Bandwidth</small> </a>
+            </div>
+
+        </div>
+        @if (Session["userId"] != null)
+        {
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+
+                    <li><a href="/Profile/Resume"><i class="glyphicon glyphicon-file"></i>Edit Resume</a></li>
+
+
+                    <li><a href="/Home/Logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+                </ul>
+            </div> 
+          }
+    </div>
+    <div style="padding: 14px;">
+        <div class="col-lg-12 text-right">
+            @if (Model.FacebookLink != null)
+            {
+                <span>
+                    <a target="_blank" href="http://@Model.FacebookLink" id="lnkFacebok">
+                        <img src="~/Content/images/facebook-icon.png" /></a>
+                </span>
+            }
+            @if (Model.GooglePlusLink != null)
+            {
+                <span>
+                    <a target="_blank" href="http://@Model.GooglePlusLink" id="lnkGoogle">
+                        <img src="~/Content/images/Google-plus-icon.png" /></a>
+                </span>
+            }
+            @if (Model.LinkedInLink != null)
+            {
+                <span>
+                    <a target="_blank" href="http://@Model.LinkedInLink" id="lnkLinkedIn">
+                        <img src="~/Content/images/Linkedin-icon.png" /></a>
+                </span>
+            }
+            @if (Model.TwitterLink != null)
+            {
+                <span>
+                    <a target="_blank" href="http://@Model.TwitterLink" id="lnkTwitter">
+                        <img src="~/Content/images/Twitter-icon.png" /></a>
+                </span>
+            }
+        </div>
+    </div>
+
+
+</div>
+<div class="outer">
+    
+    <div class="">
+        <div class="innerOuter">
+           
+            <div class="col-md-7">
+                <div class="col-md-3">
+                    @if (Model.Logo != null)
+                    {
+                        fileName = Path.GetFileNameWithoutExtension(Model.Logo);
+                        extension = Path.GetExtension(Model.Logo);
+                        profileImage = fileName + "_81x81" + extension;
+                        
+                        <img class="thumbnail" src="/Document/@Model.Id/@profileImage" />
+                    }
+                    else
+                    {
+                        <img class="thumbnail" src="~/Content/images/thumb.jpg" />
+                    }
+                </div>
+                <div class="col-md-9">
+
+                    <h2 class="text-primary" style="margin-top:0">@Model.FirstName @Model.LastName</h2>
+                    <h4 class="text-warning">@Model.Designation</h4>
+                    <p class="text-muted">Work Exp.: 
+                        <b>
+                            @if(Model.WorkExYear!=null)
+                            {
+                            @Model.WorkExYear <text>year</text> 
+                            }  
+                            @if(Model.WorkExMonth!=null)
+                            {
+                            @Model.WorkExMonth <text>month</text> 
+                            } 
+
+                        </b>
+
+                    </p>                 
+
+                </div>
+            </div>
+            <div class="col-md-5">
+                <dl class="dl-horizontal text-muted">
+                    <dt class="dt-custome">Address:</dt>
+                    <dd class="dd-custome" id="paddr">@Model.Address</dd>
+
+                    <dt class="dt-custome">Phone:</dt>
+                    <dd class="dd-custome" id="pphone">@Model.Phone</dd>
+
+                    <dt class="dt-custome">Email:</dt>
+                    <dd class="dd-custome" id="pemail">@Model.Email</dd>
+
+                    <dt class="dt-custome">Date of Birth:</dt>
+                    <dd class="dd-custome" id="pdob">
+                        @if (@Model.DateOfBirth != null)
+                        {
+                            @Model.DateOfBirth.Value.ToString("dd-MM-yyyy")
+                        }
+                    </dd>
+                    @if(Model.Gender!=null)
+                    {
+                        <dt class="dt-custome">Gender:</dt>
+                        <dd class="dd-custome" id="pgender" style="text-transform:capitalize">@Model.Gender</dd>
+                    }
+                    <dt class="dt-custome">Nationality:</dt>
+                    <dd class="dd-custome" id="pnat">@Model.Nationality</dd>
+
+
+                </dl>
+
+            </div>
+            </div>
+    </div>
+       <hr />
+     <div class="row">
+         <div class="col-md-12 text-primary">   <b>Objective:</b></div>
+         <div class="col-md-12" style="word-break:break-all;text-align:justify">@Model.Objective</div>
+   
+          
+       </div>
+       <hr />
+    <!-- Resume Detail-->
+
+    <div class="panel-group" id="myCollapsible">
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+     
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseSkills">
+             <h4 class="panel-title"> <span class="glyphicon glyphicon-minus"></span>
+          Skill and Expertise
+                 </h4>
+        </a>
+      
+    </div>
+    <div id="collapseSkills" class="panel-collapse collapse in">
+      <div class="panel-body">
+       <ul>
+           @if(Model.EmployeeSkills !=null)
+           {
+               foreach(var a in @Model.EmployeeSkills)
+               {
+                    <li>@a.Skill</li>
+               }
+           }
+       </ul>
+
+      </div>
+    </div>
+  </div>
+        <!--Employment -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment">
+            <h4 class="panel-title"> <span class="glyphicon glyphicon-plus"></span>
+          Employment </h4>
+        </a>
+     
+    </div>
+      <div id="collapseEmployment" class="panel-collapse collapse">
+          <div class="panel-body">
+              <div class="col-md-12">
+                  @if (Model.Employeements != null)
+                  {
+                      foreach (var a in @Model.Employeements)
+                      {
+                      <h4 class="text-primary"><i class="glyphicon glyphicon-chevron-right"></i>@a.Designation<small>(@a.CompanyName)</small>
+                          <small class="pull-right">@a.FromYear - @a.ToYear</small></h4>
+                      <p>
+                          @a.Description
+                      </p>
+                      <hr />
+                     }
+                 } 
+              </div>
+          </div>
+      </div>
+    </div>
+ 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+    
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEducation">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         Education
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseEducation" class="panel-collapse collapse">
+      <div class="panel-body">
+          <div class="row">
+              @if (Model.Educations != null)
+              {
+                  foreach (var a in @Model.Educations)
+                  {
+                  <div class="col-md-12">
+
+                    <h4 class="text-primary">@a.Degree <small class="pull-right">@a.FromYear - @a.ToYear</small></h4>
+                          <small>@a.College</small>
+
+                  </div>
+                  <hr />
+                  }
+              }
+          </div>  
+       </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseProject">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         Projects
+                 </h4>
+        </a>
+     
+    </div>
+
+    <div id="collapseProject" class="panel-collapse collapse">
+      <div class="panel-body">
+          <div class="col-md-12">
+               @if (Model.EmployeeProjects != null)
+               {
+                  foreach (var a in @Model.EmployeeProjects)
+                  {
+               <h4 class="text-primary">@a.Title</h4>         
+               <p>@Html.Raw(a.Description)</p>
+                  <hr />
+                  }
+               }
+           </div>        
+      </div>
+    </div>
+  </div>
+
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseAchievements">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Achievements / Awards / Honors
+                 </h4>
+        </a>
+   
+    </div>
+    <div id="collapseAchievements" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ul>
+            @if (Model.EmployeeAchivements != null)
+               {
+                   foreach (var a in @Model.EmployeeAchivements)
+                  {
+                    <li>@Html.Raw(a.Achievement)</li>
+                 }
+            }           
+       </ul>
+      </div>
+    </div>
+  </div>
+
+        
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseWorkshop">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Workshop / Conference / Seminar / Symposium
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseWorkshop" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ul>
+               @if (Model.EmployeeSeminars != null)
+               {
+                   foreach (var a in @Model.EmployeeSeminars)
+                  {
+                       <li>@Html.Raw(a.Seminar)</li>
+                   }
+               }
+                       
+          
+       </ul>
+
+      </div>
+    </div>
+  </div>
+
+        
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapsePublications">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Publications
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapsePublications" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ol>
+
+
+            @if (Model.EmployeePublications != null)
+               {
+                   foreach (var a in @Model.EmployeePublications)
+                  {
+                   <li>@Html.Raw(a.Publication)</li>
+                  }
+            }
+         
+       </ol>
+
+      </div>
+    </div>
+  </div>
+
+
+
+         <div class="panel panel-default">
+    <div class="panel-heading">
+    
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseRefences">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         References
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseRefences" class="panel-collapse collapse">
+      <div class="panel-body">
+
+            @if (Model.EmployeeReferences != null)
+               {
+                   foreach (var a in @Model.EmployeeReferences)
+                  {
+
+          <div class="col-md-4">
+               <h4 class="text-primary"><i class="glyphicon glyphicon-user"></i> @a.Reference <small>@a.Designation</small></h4>
+          <address>
+              <i class="glyphicon glyphicon-envelope"></i> @a.Email
+              <br />
+              <i class="glyphicon glyphicon-earphone"></i> @a.Phone
+          </address>
+          </div>
+                
+                 }
+            }
+      
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+      <div class="hidden-col">
+        <div class="stickyBox">
+            <div class="printResume"><i class="glyphicon glyphicon-print"></i></div>
+            <div class="downloadResume"><i class="glyphicon glyphicon-download-alt"></i></div>
+        </div>
+    </div>
+    </div><!-- end outer -->
+
+
+
+<div class="hide">
+    <div class="ResumeForPrint">
+        <div style="background-color: #fff; padding: 10px; font-family: Arial, Calibri">
+            <div style="width: 10%; float: left">
+                @if (Model.Logo != null)
+                {
+                    fileName = Path.GetFileNameWithoutExtension(Model.Logo);
+                    extension = Path.GetExtension(Model.Logo);
+                    profileImage = fileName + "_81x81" + extension;
+                        
+                    <img style="width:81px;border: 1px solid #dddddd;padding: 4px;border-radius: 4px;" src="/Document/@Model.Id/@profileImage" />
+                    }
+                else
+                {
+                    <img style="width: 81px" src="~/Content/images/thumb.jpg" />
+                    }
+            </div>
+            <div style="width: 36%; float: left; padding: 10px; margin-left: 20px">
+                <p><b>@Model.FirstName @Model.LastName</b></p>
+                <p>
+                    Work Exp.: 
+                        <b>
+                            @if (Model.WorkExYear != null)
+                            {
+                                @Model.WorkExYear <text>year</text> 
+                            }
+                            @if (Model.WorkExMonth != null)
+                            {
+                                @Model.WorkExMonth <text>month</text> 
+                            }
+
+                        </b>
+                </p>
+            </div>
+            <div style="float: right; width: 40%">
+                <div style="width: 40%; float: left">
+                    <div>Email ID : </div>
+                    <div>Phone : </div>
+                    <div>Date of Birth : </div>
+                    <div>Gender : </div>
+                    <div>Nationality : </div>
+                    <div>Address : </div>
+                </div>
+                <div style="width: 60%; float: left">
+                    <div>@Model.Email</div>
+                    <div>@Model.Phone</div>
+                    <div>
+                        @if (@Model.DateOfBirth != null)
+                        {
+                            @Model.DateOfBirth.Value.ToString("dd-MM-yyyy")
+                        }
+                    </div>
+                    <div>
+                        @if (Model.Gender != null)
+                        {
+                            @Model.Gender
+                        }
+                    </div>
+                    <div>@Model.Nationality</div>
+                    <div>@Model.Address</div>
+                </div>
+            </div>
+
+            <div style="clear: both"></div>
+            @if (Model.Objective != null)
+                    {
+            <div class="pObjective">
+                <h3><u>Objective</u></h3>
+                <div style="word-break: break-all">
+                        @Model.Objective
+                </div>
+            </div>
+            }
+            
+            @if (Model.EmployeeSkills != null)
+                        {
+                if(Model.EmployeeSkills.Count>0)
+                {<hr />
+            <div class="pSkillSet">
+                <h3><u>Skill and Expertise</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var skill in Model.EmployeeSkills)
+                            {
+                            <li>@skill.Skill</li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+                        }
+            
+            @if (Model.Employeements != null)
+            {
+                if (Model.Employeements.Count > 0)
+                {<hr />
+            <div class="pEmployment">
+                <h3><u>Employment</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var emp in Model.Employeements)
+                            {
+                            <li>
+                                <span><b>@emp.Designation (@emp.CompanyName)</b></span><span style="float: right">@emp.FromYear - @emp.ToYear</span>
+                                <div style="word-break: break-all">@emp.Description</div>
+                                <br />
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+            
+            @if (Model.Educations != null)
+            {
+                if (Model.Educations.Count > 0)
+                {<hr />
+            <div class="pEducation">
+                <h3><u>Education</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var edu in Model.Educations)
+                            {
+                            <li>
+                                <span><b>@edu.Degree</b> (@edu.FromYear - @edu.ToYear)</span>
+                                <div>@edu.College</div>
+                                <br />
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+           
+            @if (Model.EmployeeProjects != null)
+            {
+                if (Model.EmployeeProjects.Count > 0)
+                { <hr />
+            <div class="pProjects">
+                <h3><u>Projects</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var proj in Model.EmployeeProjects)
+                            {
+                            <li>
+                                <span><b>@proj.Title</b></span>
+                                <div style="word-break: break-all">@Html.Raw(proj.Description)</div>
+                                <br />
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+            
+            @if (Model.EmployeeAchivements != null)
+            {
+                if (Model.EmployeeAchivements.Count > 0)
+                {<hr />
+            <div class="pAchievements">
+                <h3><u>Achievements / Awards / Honors</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var ach in Model.EmployeeAchivements)
+                            {
+                            <li>
+
+                                <div style="word-break: break-all"> @Html.Raw(ach.Achievement)</div>
+
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+            
+            @if (Model.EmployeeSeminars != null)
+            {
+                if (Model.EmployeeSeminars.Count > 0)
+                {<hr />
+            <div class="pWorkshop">
+                <h3><u>Workshop / Conference / Seminar / Symposium</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var sem in Model.EmployeeSeminars)
+                            {
+                            <li>
+                                <div style="word-break: break-all">@Html.Raw(sem.Seminar)</div>
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+            
+            @if (Model.EmployeePublications != null)
+            {
+                if (Model.EmployeePublications.Count > 0)
+                {<hr />
+            <div class="pPublication">
+                <h3><u>Publications</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var pub in Model.EmployeePublications)
+                            {
+                            <li>
+                                <div style="word-break: break-all">@Html.Raw(pub.Publication)</div>
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+            
+            @if (Model.EmployeeReferences != null)
+            {
+                if (Model.EmployeeReferences.Count > 0)
+                {<hr />
+            <div class="pRef">
+                <h3><u>References</u></h3>
+                <div>
+                    <ul>
+                        
+                            @foreach (var emp in Model.EmployeeReferences)
+                            {
+                            <li>
+                                <span><b>@emp.Reference</b>(@emp.Designation)</span>
+                                <div>
+                                    @if (emp.Email != null)
+                                    {
+                                        if (emp.Email != "")
+                                        {
+                                        <div><b>Email ID :</b> @emp.Email</div>
+                                        }
+                                    }
+                                    @if (emp.Phone != null)
+                                    {
+                                        if (emp.Phone != "")
+                                        {
+                                        <div><b>Phone :</b> @emp.Phone</div>
+                                        }
+                                    }
+                                </div>
+                                <br />
+                            </li>
+                            }
+                    
+                    </ul>
+                </div>
+            </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<span class="hide" id="clickToDownload">/Document/@Model.Id/pdf/Resume.pdf</span>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $(".printResume").click(function () {
+
+        $(".ResumeForPrint").printElement({
+
+            pageTitle: "Resume - " + $("#pName").html(),
+            leaveOpen: false,
+            printMode: 'popup',
+            printBodyOptions:
+            {
+                styleToAdd: 'padding:10px;margin:10px; !important;',
+                classNameToAdd: 'thisWillBeTheClassUsedAsWell'
+            },
+
+            iframeElementOptions:
+            {
+                styleToAdd: 'position:absolute;width:0px;height:0px;bottom:0px;',
+                classNameToAdd: 'thisWillBeTheClassUsedAsWell'
+            }
+        });
+    });
+
+
+
+    $(".downloadResume").click(function () {
+        $.getJSON("/Profile/ExportResume", { id: 0 },
+            function (data) {
+
+                window.location = $("#clickToDownload").text();
+            });
+    });
+</script>

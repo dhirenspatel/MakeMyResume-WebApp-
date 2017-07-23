@@ -1,0 +1,121 @@
+﻿body {
+    background-color: #383838;
+ font-family: 'Lato', sans-serif;
+ color:#666;
+
+/*background-image:url('images/wood.jpg');*/
+background-position:center;
+background-attachment:fixed;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+font-family: 'Lato', sans-serif;
+}
+
+h4 {
+    font-size:15px;
+    font-weight:bold;
+}
+.outer {
+    background-color:#fff;
+    padding:30px;
+    margin-top:20px;
+    margin-bottom:20px;
+}
+.category_title {
+    position: relative;
+background: #2980b9;
+font-size: 14px;
+line-height: 18px;
+color: #fff;
+text-transform: uppercase;
+padding: 5px 10px;
+font-weight: 700;
+}
+    .category_title i {
+    }
+.innerOuter {
+}
+.panel-title a { font-size:16px; font-weight:bold;color:#2c3e50;
+}
+.box {
+	
+	background:#FFF;
+	margin:40px auto;
+}
+.effect8
+{
+  	position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.effect8:before, .effect8:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:10px;
+    bottom:10px;
+    left:0;
+    right:0;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+} 
+.effect8:after
+{
+	right:10px; 
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg); 
+       -moz-transform:skew(8deg) rotate(3deg);     
+        -ms-transform:skew(8deg) rotate(3deg);     
+         -o-transform:skew(8deg) rotate(3deg); 
+            transform:skew(8deg) rotate(3deg);
+}  
+.effect7
+{
+  	position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.effect7:before, .effect7:after
+{
+	content:"";
+    position:absolute; 
+    z-index:-1;
+    -webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    -moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+    top:0;
+    bottom:0;
+    left:10px;
+    right:10px;
+    -moz-border-radius:100px / 10px;
+    border-radius:100px / 10px;
+} 
+.effect7:after
+{
+	right:10px; 
+    left:auto;
+    -webkit-transform:skew(8deg) rotate(3deg); 
+       -moz-transform:skew(8deg) rotate(3deg);     
+        -ms-transform:skew(8deg) rotate(3deg);     
+         -o-transform:skew(8deg) rotate(3deg); 
+            transform:skew(8deg) rotate(3deg);
+}
+
+
+/*******custome*******/
+.dt-custome {width: 125px!important;}
+.dd-custome {margin-left: 132px!important;}
+.stickyBox {top: 111px;    right: 178px;    position: fixed;    background-color: #fff;font-size: 40px;}
+.stickyBox div {padding: 10px;}
+.stickyBox div:first-child { border-bottom: 2px solid #666666 }
+.stickyBox i {cursor:pointer}
+.btn-load-process {padding: 6px 26px;display:none;}
+.text-editor {max-height: 175px;height: 175px;background-color: white;border-collapse: separate; border: 1px solid rgb(204, 204, 204); 
+	padding: 4px; box-sizing: content-box; -webkit-box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset; box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px 0px inset;
+	border-top-right-radius: 3px; border-bottom-right-radius: 3px;border-bottom-left-radius: 3px; border-top-left-radius: 3px;overflow: scroll;outline: none;}

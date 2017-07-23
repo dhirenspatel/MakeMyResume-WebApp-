@@ -1,0 +1,1059 @@
+﻿@model meraRESU.ME.Models.Employee
+@{
+    ViewBag.Title = "SampleResume";
+}
+<div class="outer">
+    <div class="">
+        <div class="innerOuter">
+
+            <div class="col-md-7">
+                <div class="col-md-3">
+                    <img class="thumbnail" src="~/Content/images/thumb.jpg" />
+                </div>
+                <div class="col-md-9">
+
+                    <h2 class="text-primary" style="margin-top: 0">@Model.FirstName @Model.LastName</h2>
+                    <h4 class="text-warning">@Model.Designation</h4>
+                    <p class="text-muted">
+                        Work Exp.: 
+                        <b>
+                            @if (@Model.WorkExYear != null)
+                            {
+                                @Model.WorkExMonth <text>year</text> 
+                            }
+                            @if (@Model.WorkExMonth != null)
+                            {
+                                @Model.WorkExMonth <text>month</text> 
+                            }
+
+                        </b>
+
+                    </p>
+
+                </div>
+            </div>
+            <div class="col-md-5">
+                <dl class="dl-horizontal text-muted">
+                    <dt>Address:</dt>
+                    <dd>@Model.Address</dd>
+
+                    <dt>Phone:</dt>
+                    <dd>@Model.Phone</dd>
+
+                    <dt>Email:</dt>
+                    <dd>@Model.Email</dd>
+
+                    <dt>Date of Birth:</dt>
+                    <dd>
+                        @if (@Model.DateOfBirth != null)
+                        {
+                            @Model.DateOfBirth.Value.ToString("dd-MM-yyyy")
+                        }
+                    </dd>
+                    <dt>Nationality:</dt>
+                    <dd>@Model.Nationality</dd>
+
+
+                </dl>
+
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row text-primary">
+        <div class="col-md-2"><b>Objective:</b></div>
+        <div class="col-md-10">@Model.Objective</div>
+
+
+    </div>
+    <hr />
+    <div class="panel-group" id="myCollapsible">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseSkills">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-minus"></span>
+                                Skill and Expertise 
+                
+                            </h4>
+
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span style="cursor: pointer" id="addSkill" class="pull-right" data-toggle="modal" data-target="#skill">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div id="collapseSkills" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <ul class="appendSkill">
+                        @if (Model.EmployeeSkills != null)
+                        {
+                            foreach (var a in @Model.EmployeeSkills)
+                            {
+                            <li id="skill-@a.Id">@a.Skill                               
+                                <span style="cursor:pointer" class="deleteSkill pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>       
+                                <span style="cursor:pointer;margin-right:7px" class="editSkill pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>                         
+                            </li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+       
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Employment </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addEmployment" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#employment">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div id="collapseEmployment" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-12 appendEmployment">
+                        @if (Model.Employeements != null)
+                        {
+                            foreach (var a in @Model.Employeements)
+                            {
+                            <div id="employment-@a.Id">
+                                <h4 class="text-primary">
+                                    <i class="glyphicon glyphicon-chevron-right"></i>@a.Designation<small>(@a.CompanyName)</small>                                    
+                                    <span style="cursor:pointer" class="deleteEmployment pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editEmployment pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <small class="pull-right" style="margin-right:15px">@a.FromYear - @a.ToYear</small>
+                                </h4>
+                                <p>
+                                    @a.Description
+                                </p>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEducation">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Education
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addEducation" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#education">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseEducation" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="row appendEducation">
+                        @if (Model.Educations != null)
+                        {
+                            foreach (var a in @Model.Educations)
+                            {
+                            <div id="education-@a.Id">
+                                <div class="col-md-12">
+                                    <h4 class="text-primary">@a.Degree <small>(@a.FromYear - @a.ToYear)</small>
+                                        <span style="cursor:pointer" class="deleteEducation pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                        <span style="cursor:pointer;margin-right:7px" class="editEducation pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                    </h4>
+                                    <small>@a.College</small>
+                                </div>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseProject">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Projects
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addProject" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#project">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="collapseProject" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-12 appendProject">
+                        @if (Model.EmployeeProjects != null)
+                        {
+                            foreach (var a in @Model.EmployeeProjects)
+                            {
+                            <div id="project-@a.Id">
+                                <h4 class="text-primary">@a.Title
+                                    <span style="cursor:pointer" class="deleteProject pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editProject pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                </h4>
+                                <p>@a.Description</p>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseAchievements">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Achievements / Awards / Honors
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addAchievement" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#achievement">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseAchievements" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendAchievement">
+                        @if (Model.EmployeeAchivements != null)
+                        {
+                            foreach (var a in @Model.EmployeeAchivements)
+                            {
+                            <li id="achievement-@a.Id">@a.Achievement
+
+                                  <span style="cursor:pointer" class="deleteAchievement pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>       
+                                <span style="cursor:pointer;margin-right:7px" class="editAchievement pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>                         
+
+                            </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseWorkshop">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Workshop / Conference / Seminar / Symposium
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addWorkshop" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#workshop">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseWorkshop" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendWorkshop">
+                        @if (Model.EmployeeSeminars != null)
+                        {
+                            foreach (var a in @Model.EmployeeSeminars)
+                            {
+                            <li id="workshop-@a.Id">@a.Seminar
+                                  <span style="cursor:pointer" class="deleteWorkshop pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>       
+                                <span style="cursor:pointer;margin-right:7px" class="editWorkshop pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>                         
+
+                            </li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapsePublications">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Publications
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addPublication" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#publication">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapsePublications" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendPublication">
+                        @if (Model.EmployeePublications != null)
+                        {
+                            foreach (var a in @Model.EmployeePublications)
+                            {
+                            <li id="publication-@a.Id">@a.Publication
+
+                                 <span style="cursor:pointer" class="deletePublication pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>       
+                                <span style="cursor:pointer;margin-right:7px" class="editPublication pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>                         
+                            </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseRefences">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                References
+                            </h4>
+                        </a>
+
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addReferences" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#references">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseRefences" class="panel-collapse collapse">
+                <div class="panel-body appendReference">
+
+                    @if (Model.EmployeeReferences != null)
+                    {
+                        foreach (var a in @Model.EmployeeReferences)
+                        {
+                        <div id="reference-@a.Id">
+                            <div class="col-md-4">
+                                <h4 class="text-primary"><i class="glyphicon glyphicon-user"></i>@a.Reference
+                                    <span style="cursor:pointer" class="deleteReference pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editReference pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+
+                                </h4>
+                                <h4><small>@a.Designation</small></h4>
+                                <address>
+                                    <i class="glyphicon glyphicon-envelope"></i>@a.Email
+                                    <br />
+                                    <i class="glyphicon glyphicon-earphone"></i>@a.Phone
+                                </address>
+                            </div>
+                        </div>
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="skill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Add Skill and Expertise </h4>
+                <input type="hidden" id="SkillId" value="0" />
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Skill and Expertise</label>
+                    <input type="email" class="form-control" id="SkillName" placeholder="Enter skill and expertise">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSkill">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="employment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Employment</h4>
+                 <input type="hidden" id="EmploymentId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Company Name</label>
+                    <input class="form-control" id="CompanyName" placeholder="Enter CompanyName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Designation</label>
+                    <input class="form-control" id="Designation" placeholder="Enter Designation">
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">From Year</label>
+                        @Html.TextBox("FromYear1", null, new { @placeholder = "From Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">To Year</label>
+                        @Html.TextBox("ToYear1", null, new { @placeholder = "To Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description1" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEmployement">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="education" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Education</h4>
+                 <input type="hidden" id="EducationId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">College Name</label>
+                    <input class="form-control" id="CollegeName" placeholder="Enter CollegeName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Degree</label>
+                    <input class="form-control" id="Degree" placeholder="Enter Degree">
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">From Year</label>
+                        @Html.TextBox("FromYear2", null, new { @placeholder = "From Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">To Year</label>
+                        @Html.TextBox("ToYear2", null, new { @placeholder = "To Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description2" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEducation">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="project" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Project</h4>
+                 <input type="hidden" id="ProjectId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input class="form-control" id="Title" placeholder="Enter Title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description3" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnProject">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="achievement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add  Achievements / Awards / Honors </h4>
+                  <input type="hidden" id="AchievementId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description4" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnAchievement">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="workshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add  Workshop / Conference / Seminar / Symposium </h4>
+                 <input type="hidden" id="WorkshopId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description5" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnWorkshop">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="publication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Publications</h4>
+                   <input type="hidden" id="PublicationId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description6" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnPublication">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="references" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add References</h4>
+                <input type="hidden" id="ReferenceId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Enter Name" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Designation</label>
+                    <input type="text" class="form-control" id="RDesignation" placeholder="Enter Designation" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="text" class="form-control" id="Email" placeholder="Enter Email" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Phone</label>
+                    <input type="text" class="form-control" id="Phone" placeholder="Enter Phone" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnReference">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+
+    $("#addEmployment").click(function () {
+        $("#CompanyName").val("");
+        $("#Designation").val("");
+        $("#FromYear1").val("");
+        $("#ToYear1").val("");
+        $("#Description1").val("");
+        $("#EmploymentId").val(0);
+    });
+
+
+    $(".editEmployment").live("click", function () {
+        var id = $(this).attr("id");
+        $('#employment').modal('toggle');
+        $.getJSON("/Home/GetEmployeement", { id: id },
+            function (data) {
+                $("#CompanyName").val(data.CompanyName);
+                $("#Designation").val(data.Designation);
+                $("#FromYear1").val(data.FromYear);
+                $("#ToYear1").val(data.ToYear);
+                $("#Description1").val(data.Description);             
+                $("#EmploymentId").val(data.Id);
+            });
+    });
+
+    $("#btnEmployement").click(function () {
+        var cname = $("#CompanyName").val();
+        var designation = $("#Designation").val();
+        var fromyear = $("#FromYear1").val();
+        var toyear = $("#ToYear1").val();
+        var des = $("#Description1").val();
+        var id = $("#EmploymentId").val();
+        $.getJSON("/Home/AddEmployeement1", { id: id, cname: cname, designation: designation, fromyear: fromyear, toyear: toyear, des: des },
+              function (data) {
+                  var a = data.split('#')[1];
+                  var b = data.split('#')[0];
+                  if (a == 1) {
+                      $(".appendEmployment :last").append(b);
+                  }
+                  if (a == 2) {
+                      $("#employment-" + id).html(b);
+                      $("#EmploymentId").val(0);
+                  }                 
+                  $('#employment').modal('hide');
+              });
+    });
+    
+    $(".deleteEmployment").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteEmployeement", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#employment-" + id).hide();
+                }
+            });
+    });
+
+    $("#addEducation").click(function () {
+        $("#CollegeName").val("");
+        $("#Degree").val("");
+        $("#FromYear2").val("");
+        $("#ToYear2").val("");
+        $("#Description2").val("");
+        $("#EducationId").val(0);
+    });
+
+    $(".editEducation").live("click", function () {
+        var id = $(this).attr("id");
+        $('#education').modal('toggle');
+        $.getJSON("/Home/GetEducation", { id: id },
+            function (data) {
+                $("#CollegeName").val(data.College);
+                $("#Degree").val(data.Degree);
+                $("#FromYear2").val(data.FromYear);
+                $("#ToYear2").val(data.ToYear);
+                $("#Description2").val(data.Description);
+                $("#EducationId").val(data.Id);
+            });
+    });
+
+    $(".deleteEducation").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteEducation", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#education-" + id).hide();
+                }
+            });
+    });
+
+
+    $("#btnEducation").live("click", function () {
+        var cname = $("#CollegeName").val();
+        var degree = $("#Degree").val();
+        var fromyear = $("#FromYear2").val();
+        var toyear = $("#ToYear2").val();
+        var des = $("#Description2").val();
+        var id = $("#EducationId").val();
+        $.getJSON("/Home/AddEducation", { id: id, cname: cname, degree: degree, fromyear: fromyear, toyear: toyear, des: des },
+               function (data) {
+                   var a = data.split('#')[1];
+                   var b = data.split('#')[0];
+                   if (a == 1) {
+                       $(".appendEducation :last").append(b);
+                   }
+                   if (a == 2) {
+                       $("#education-" + id).html(b);
+                       $("#EducationId").val(0);
+                   }
+                   $('#education').modal('hide');
+               });
+    });
+
+
+
+
+    $("#addProject").click(function () {
+        $("#Title").val("");
+        $("#Description3").val("");
+        $("#ProjectId").val(0);
+    });
+
+    $(".editProject").live("click", function () {
+        var id = $(this).attr("id");
+        $('#project').modal('toggle');
+        $.getJSON("/Home/GetProject", { id: id },
+            function (data) {
+                $("#Description3").val(data.Description);
+                $("#Title").val(data.Title);
+                $("#ProjectId").val(data.Id);
+            });
+    });
+
+    $("#btnProject").click(function () {
+        var title = $("#Title").val();
+        var des = $("#Description3").val();
+        var id = $("#ProjectId").val();
+        $.getJSON("/Home/AddProject", { id: id, title: title, des: des },
+            function (data) {
+                if (data != null) {
+                    var a = data.split('#')[1];
+                    var b = data.split('#')[0];
+                    if (a == 1) {
+                        $(".appendProject :last").append(b);
+                    }
+                    if (a == 2) {
+                        $("#project-" + id).html(b);
+                        $("#ProjectId").val(0);
+                    }
+                    $('#project').modal('hide');
+                }
+            });
+    });
+
+    $(".deleteProject").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteProject", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#project-" + id).hide();
+                }
+            });
+    });
+
+
+
+
+    $("#addAchievement").click(function () {
+        $("#Description4").val("");
+        $("#AchievementId").val(0);
+    });
+
+    $(".editAchievement").live("click", function () {
+        var id = $(this).attr("id");
+        $('#achievement').modal('toggle');
+        $.getJSON("/Home/GetAchievement", { id: id },
+            function (data) {
+                $("#Description4").val(data.Achievement);
+                $("#AchievementId").val(data.Id);
+            });
+    });
+
+
+    $(".deleteAchievement").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteAchievement", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#achievement-" + id).hide();
+                }
+            });
+    });
+
+
+    $("#btnAchievement").click(function () {
+        var des = $("#Description4").val();
+        var id = $("#AchievementId").val();
+        $.getJSON("/Home/AddAchievement", { id: id, des: des },
+            function (data) {
+                var a = data.split('#')[1];
+                var b = data.split('#')[0];
+                if (a == 1) {
+                    $(".appendAchievement :last").append(b);
+                }
+                if (a == 2) {
+                    $("#achievement-" + id).html(b);
+                    $("#AchievementId").val(0);
+                }                
+                $('#achievement').modal('hide');
+            });
+    });
+
+
+
+    $("#addWorkshop").click(function () {
+        $("#Description5").val("");
+        $("#WorkshopId").val(0);
+    });
+
+
+    $(".editWorkshop").live("click", function () {
+        var id = $(this).attr("id");
+        $('#workshop').modal('toggle');
+        $.getJSON("/Home/GetWorkshop", { id: id },
+            function (data) {
+                $("#Description5").val(data.Seminar);
+                $("#WorkshopId").val(data.Id);
+            });
+    });
+
+
+    $("#btnWorkshop").click(function () {
+        var des = $("#Description5").val();
+        var id = $("#WorkshopId").val();
+        $.getJSON("/Home/AddWorkshop", { id: id, des: des },
+            function (data) {
+                var a = data.split('#')[1];
+                var b = data.split('#')[0];
+                if (a == 1) {
+                    $(".appendWorkshop :last").append(b);
+                }
+                if (a == 2) {
+                    $("#workshop-" + id).html(b);
+                    $("#WorkshopId").val(0);
+                }
+                $('#workshop').modal('hide');
+            });
+    });
+
+    $(".deleteWorkshop").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteWorkshop", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#workshop-" + id).hide();
+                }
+            });
+    });
+
+
+
+
+    $("#addPublication").click(function () {
+        $("#Description6").val("");       
+        $("#PublicationId").val(0);
+    });   
+
+
+    $("#btnPublication").click(function () {
+        var des = $("#Description6").val();
+        var id = $("#PublicationId").val();
+        $.getJSON("/Home/AddPublication", { id: id, des: des },
+            function (data) {
+                var a = data.split('#')[1];
+                var b = data.split('#')[0];               
+                if (a == 1) {
+                    $(".appendPublication :last").append(b);
+                }
+                if (a == 2) {
+                    $("#publication-" + id).html(b);
+                    $("#PublicationId").val(0);
+                }                
+                $('#publication').modal('hide');
+            });
+    });
+
+    $(".editPublication").live("click", function () {
+        var id = $(this).attr("id");
+        $('#publication').modal('toggle');
+        $.getJSON("/Home/GetPublication", { id: id },
+            function (data) {
+                $("#Description6").val(data.Publication);
+                $("#PublicationId").val(data.Id);
+            });
+    });
+
+    $(".deletePublication").live("click", function () {
+        var id = $(this).attr("id");      
+        $.getJSON("/Home/DeletePublication", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#publication-" + id).hide();
+                }
+            });
+    });
+
+    $("#addReferences").click(function () {
+        $("#Name").val("");
+        $("#RDesignation").val("");
+        $("#Email").val("");
+        $("#Phone").val("");
+        $("#ReferenceId").val(0);
+    });
+
+    $(".editReference").live("click", function () {
+        var id = $(this).attr("id");
+        $('#references').modal('toggle');
+        $.getJSON("/Home/GetReference", { id: id },
+            function (data) {
+                $("#Name").val(data.Reference);
+                $("#RDesignation").val(data.Designation);
+                $("#Email").val(data.Email);
+                $("#Phone").val(data.Phone);
+                $("#ReferenceId").val(data.Id);
+            });
+    });
+
+    $(".deleteReference").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteReference", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#reference-" + id).hide();
+                }
+            });
+    });
+
+    $("#btnReference").click(function () {
+        var id = $("#ReferenceId").val();
+        var name = $("#Name").val();
+        var designation = $("#RDesignation").val();
+        var email = $("#Email").val();
+        var phone = $("#Phone").val();
+        $.getJSON("/Home/AddReference", { id: id, name: name, designation: designation, email: email, phone: phone },
+            function (data) {
+                var a = data.split('#')[1];
+                var b = data.split('#')[0];
+                if (a == 1) {
+                    $(".appendReference :last").append(b);
+                }
+                if (a == 2) {
+                    $("#reference-" + id).html(b);
+                    $("#ReferenceId").val(0);
+                }               
+                $('#references').modal('hide');
+            });
+    });
+
+
+
+    $("#addSkill").click(function () {
+        $("#SkillName").val("");
+        $("#SkillId").val(0);
+    });    
+
+    $(".editSkill").live("click", function () {
+        var id = $(this).attr("id");
+        $('#skill').modal('toggle');
+        $.getJSON("/Home/GetSkill", { id: id },
+            function (data) {
+                $("#SkillName").val(data.Skill);
+                $("#SkillId").val(data.Id);
+            });
+    });
+
+    $(".deleteSkill").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Home/DeleteSkill", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#skill-" + id).hide();
+                }
+            });
+    });
+
+    $("#btnSkill").click(function () {
+        var skill = $("#SkillName").val();       
+        var id = $("#SkillId").val();       
+        $.getJSON("/Home/AddSkill", { id: id, skill: skill },
+            function (data) {
+                var a = data.split('#')[1];
+                var b = data.split('#')[0];
+                if (a == 1) {
+                    $(".appendSkill :last").append(b);                    
+                }
+                if (a == 2) {
+                    $("#skill-" + id).html(b);
+                    $("#SkillId").val(0);
+                }
+                $('#skill').modal('hide');
+            });
+    });
+
+    
+
+</script>
+
+
+

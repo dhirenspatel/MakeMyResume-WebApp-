@@ -1,0 +1,317 @@
+﻿@model meraRESU.ME.Models.Employee
+
+
+@{
+    ViewBag.Title = "SampleResume";
+}
+
+<div class="outer">
+    
+    <div class="">
+        <div class="innerOuter">
+           
+            <div class="col-md-7">
+                <div class="col-md-3">
+                    <img class="thumbnail" src="~/Content/images/thumb.jpg" />
+                </div>
+                <div class="col-md-9">
+
+                    <h2 class="text-primary" style="margin-top:0">@Model.FirstName @Model.LastName</h2>
+                    <h4 class="text-warning">@Model.Designation</h4>
+                    <p class="text-muted">Work Exp.: 
+                        <b>
+                            @if(@Model.WorkExYear!=null)
+                            {
+                            @Model.WorkExMonth <text>year</text> 
+                            }  
+                            @if(@Model.WorkExMonth!=null)
+                            {
+                            @Model.WorkExMonth <text>month</text> 
+                            } 
+
+                        </b>
+
+                    </p>                 
+
+                </div>
+            </div>
+            <div class="col-md-5">
+                <dl class="dl-horizontal text-muted">
+                     <dt>Address:</dt>
+                    <dd>@Model.Address</dd>
+
+                    <dt>Phone:</dt>
+                    <dd>@Model.Phone</dd>
+
+                     <dt>Email:</dt>
+                    <dd>@Model.Email</dd>
+
+                    <dt>Date of Birth:</dt>
+                    <dd>
+                    @if(@Model.DateOfBirth!=null)
+                    {
+                    @Model.DateOfBirth.Value.ToString("dd-MM-yyyy")
+                    }
+                   </dd>
+                  <dt>Nationality:</dt>
+                    <dd>@Model.Nationality</dd>
+
+                   
+                </dl>
+
+            </div>
+            </div>
+    </div>
+       <hr />
+     <div class="row text-primary">
+         <div class="col-md-2">   <b>Objective:</b></div>
+         <div class="col-md-10"> @Model.Objective</div>
+   
+          
+       </div>
+       <hr />
+    <!-- Resume Detail-->
+
+    <div class="panel-group" id="myCollapsible">
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+     
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseSkills">
+             <h4 class="panel-title"> <span class="glyphicon glyphicon-minus"></span>
+          Skill and Expertise
+                 </h4>
+        </a>
+      
+    </div>
+    <div id="collapseSkills" class="panel-collapse collapse in">
+      <div class="panel-body">
+       <ul>
+           @if(Model.EmployeeSkills !=null)
+           {
+               foreach(var a in @Model.EmployeeSkills)
+               {
+                    <li>@a.Skill</li>
+               }
+           }
+       </ul>
+
+      </div>
+    </div>
+  </div>
+        <!--Employment -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment">
+            <h4 class="panel-title"> <span class="glyphicon glyphicon-plus"></span>
+          Employment </h4>
+        </a>
+     
+    </div>
+      <div id="collapseEmployment" class="panel-collapse collapse">
+          <div class="panel-body">
+              <div class="col-md-12">
+                  @if (Model.Employeements != null)
+                  {
+                      foreach (var a in @Model.Employeements)
+                      {
+                      <h4 class="text-primary"><i class="glyphicon glyphicon-chevron-right"></i>@a.Designation<small>(@a.CompanyName)</small>
+                          <small class="pull-right">@a.FromYear - @a.ToYear</small></h4>
+                      <p>
+                          @a.Description
+                      </p>
+                      <hr />
+                     }
+                 } 
+              </div>
+          </div>
+      </div>
+    </div>
+ 
+  <div class="panel panel-default">
+    <div class="panel-heading">
+    
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEducation">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         Education
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseEducation" class="panel-collapse collapse">
+      <div class="panel-body">
+          <div class="row">
+              @if (Model.Educations != null)
+              {
+                  foreach (var a in @Model.Educations)
+                  {
+                  <div class="col-md-12">
+
+                    <h4 class="text-primary">@a.Degree <small class="pull-right">@a.FromYear - @a.ToYear</small></h4>
+                          <small>@a.College</small>
+
+                  </div>
+                  <hr />
+                  }
+              }
+          </div>  
+       </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+     
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseProject">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         Projects
+                 </h4>
+        </a>
+     
+    </div>
+
+    <div id="collapseProject" class="panel-collapse collapse">
+      <div class="panel-body">
+          <div class="col-md-12">
+               @if (Model.EmployeeProjects != null)
+               {
+                  foreach (var a in @Model.EmployeeProjects)
+                  {
+               <h4 class="text-primary">@a.Title</h4>         
+               <p>@a.Description</p>
+                  <hr />
+                  }
+               }
+           </div>        
+      </div>
+    </div>
+  </div>
+
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseAchievements">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Achievements / Awards / Honors
+                 </h4>
+        </a>
+   
+    </div>
+    <div id="collapseAchievements" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ul>
+            @if (Model.EmployeeAchivements != null)
+               {
+                   foreach (var a in @Model.EmployeeAchivements)
+                  {
+                    <li>@a.Achievement</li>
+                 }
+            }           
+       </ul>
+      </div>
+    </div>
+  </div>
+
+        
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseWorkshop">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Workshop / Conference / Seminar / Symposium
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseWorkshop" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ul>
+               @if (Model.EmployeeSeminars != null)
+               {
+                   foreach (var a in @Model.EmployeeSeminars)
+                  {
+                       <li>@a.Seminar</li>
+                   }
+               }
+                       
+          
+       </ul>
+
+      </div>
+    </div>
+  </div>
+
+        
+          <div class="panel panel-default">
+    <div class="panel-heading">
+   
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapsePublications">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+          Publications
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapsePublications" class="panel-collapse collapse">
+      <div class="panel-body">
+       <ol>
+
+
+            @if (Model.EmployeePublications != null)
+               {
+                   foreach (var a in @Model.EmployeePublications)
+                  {
+                   <li>@a.Publication</li>
+                  }
+            }
+         
+       </ol>
+
+      </div>
+    </div>
+  </div>
+
+
+
+         <div class="panel panel-default">
+    <div class="panel-heading">
+    
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseRefences">
+             <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+         References
+                 </h4>
+        </a>
+     
+    </div>
+    <div id="collapseRefences" class="panel-collapse collapse">
+      <div class="panel-body">
+
+            @if (Model.EmployeeReferences != null)
+               {
+                   foreach (var a in @Model.EmployeeReferences)
+                  {
+
+          <div class="col-md-4">
+               <h4 class="text-primary"><i class="glyphicon glyphicon-user"></i> @a.Reference <small>@a.Designation</small></h4>
+          <address>
+              <i class="glyphicon glyphicon-envelope"></i> @a.Email
+              <br />
+              <i class="glyphicon glyphicon-earphone"></i> @a.Phone
+          </address>
+          </div>
+                
+                 }
+            }
+      
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+    </div><!-- end outer -->
+
+
+

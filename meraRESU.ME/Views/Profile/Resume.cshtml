@@ -1,0 +1,2099 @@
+﻿@model meraRESU.ME.Models.Employee
+@{
+    ViewBag.Title = "Resume";
+    string fileName = string.Empty;
+    string extension = string.Empty;
+    string profileImage = string.Empty;
+}
+
+<div id="navbar" class="navbar navbar-default">
+    <div class="fixed-container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="raw">
+                <a class="navbar-brand" href="/">
+                    <img src="~/Content/images/logo.png" style="height: 30px;" />
+                    | <small style="color: #d35400">Save Papers, Save Bandwidth</small> </a>
+            </div>
+        </div>
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="/Home/Logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+            </ul>
+        </div>
+
+    </div>
+    @if (Model != null)
+    {
+        if (Model.UserName != null)
+        {
+
+            if (Model.UserName != "")
+            {
+        <div class="col-lg-2"></div>
+        <div class="col-lg-7 text-center">
+            @{ string u = "/@" + Model.UserName;
+               string url = System.Web.Configuration.WebConfigurationManager.AppSettings["DomainName"] + "/@" + Model.UserName;}
+            Your Resume Link : <a target="_blank" href="@u">@url</a>
+        </div>
+        <div class="col-lg-3">
+            @if (Model.FacebookLink != null)
+            {
+                <a target="_blank" href="http://@Model.FacebookLink" id="lnkFacebok">
+                    <img src="~/Content/images/facebook-icon.png" /></a>
+            }
+            else
+            {
+                <a target="_blank" href="#" id="lnkFacebok">
+                    <img src="~/Content/images/facebook-icon.png" /></a>
+            }
+            @if (Model.GooglePlusLink != null)
+            {
+               
+                <a target="_blank" href="http://@Model.GooglePlusLink" id="lnkGoogle">
+                    <img src="~/Content/images/Google-plus-icon.png" /></a>
+               
+            }
+            else
+            {
+                <a target="_blank" href="#" id="lnkGoogle">
+                    <img src="~/Content/images/Google-plus-icon.png" /></a>
+            }
+
+            @if (Model.LinkedInLink != null)
+            {
+                
+                <a target="_blank" href="http://@Model.LinkedInLink" id="lnkLinkedIn">
+                    <img src="~/Content/images/Linkedin-icon.png" /></a>
+               
+            }
+            else
+            {
+                <a target="_blank" href="#" id="lnkLinkedIn">
+                    <img src="~/Content/images/Linkedin-icon.png" /></a>
+            }
+            @if (Model.TwitterLink != null)
+            {
+                <a target="_blank" href="http://@Model.TwitterLink" id="lnkTwitter">
+                    <img src="~/Content/images/Twitter-icon.png" /></a>
+            }
+            else
+            {
+                <a target="_blank" href="#" id="lnkTwitter">
+                    <img src="~/Content/images/Twitter-icon.png" /></a>
+            }
+
+
+            <span id="editSocialLinks" style="cursor: pointer" title="Edit Social Links" class="pull-right" data-toggle="modal" data-target="#SocialLinks">
+                <i class="glyphicon glyphicon-edit"></i>
+            </span>
+        </div>
+                      }
+                  }
+              }
+</div>
+
+<div class="outer">
+    <div class="">
+        <div class="innerOuter">
+            <div class="col-md-7">
+                <div class="col-md-3">
+                    @if (Model.Logo != null)
+                    {
+                        fileName = Path.GetFileNameWithoutExtension(Model.Logo);
+                        extension = Path.GetExtension(Model.Logo);
+                        profileImage = fileName + "_81x81" + extension;
+                        
+                        <img class="thumbnail" src="/Document/@Model.Id/@profileImage" />
+                    }
+                    else
+                    {
+                        <img class="thumbnail" src="~/Content/images/thumb.jpg" />
+                    }
+                </div>
+                <div class="col-md-9">
+
+                    <h2 class="text-primary" id="pName" style="margin-top: 0">@Model.FirstName @Model.LastName</h2>
+                    <h4 class="text-warning">@Model.Designation</h4>
+
+                    <p class="text-muted">
+                        Work Exp.: 
+                        <b class="totWorkExp">
+                            @if (@Model.WorkExYear != null)
+                            {
+                                @Model.WorkExYear <text>year</text> 
+                            }
+                            @if (@Model.WorkExMonth != null)
+                            {
+                                @Model.WorkExMonth <text>month</text> 
+                            }
+
+                        </b>
+                        <span style="cursor:pointer;margin-right:7px" class="editWorkExp pull-right" id="@Model.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                    </p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12">
+                    <a class="btn btn-xs btn-success" data-toggle="modal" href="#modelUploadPhoto">Upload Photo</a>
+                </div>
+                
+                
+            </div>
+            <div class="col-md-5">
+                <span style="cursor:pointer;margin-right:7px" class="editProfile pull-right" id="@Model.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                <dl class="dl-horizontal text-muted">
+                    <dt class="dt-custome">Address:</dt>
+                    <dd class="dd-custome" id="paddr">@Model.Address</dd>
+
+                    <dt class="dt-custome">Phone:</dt>
+                    <dd class="dd-custome" id="pphone">@Model.Phone</dd>
+
+                    <dt class="dt-custome">Email:</dt>
+                    <dd class="dd-custome" id="pemail">@Model.Email</dd>
+
+                    <dt class="dt-custome">Date of Birth:</dt>
+                    <dd class="dd-custome" id="pdob">
+                        @if (@Model.DateOfBirth != null)
+                        {
+                            @Model.DateOfBirth.Value.ToString("dd-MM-yyyy")
+                        }
+                    </dd>
+                    @if (Model.Gender != null)
+                    {
+                        <dt class="dt-custome">Gender:</dt>
+                        <dd class="dd-custome" id="pgender" style="text-transform: capitalize">@Model.Gender</dd>
+                    }
+                    <dt class="dt-custome">Nationality:</dt>
+                    <dd class="dd-custome" id="pnat">@Model.Nationality</dd>
+
+
+                </dl>
+
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-10 text-primary"><b>Objective:</b></div>
+        <div class="col-lg-2"><span style="cursor:pointer;margin-right:23px" class="editObjective pull-right" id="@Model.Id"><i class="glyphicon glyphicon-edit"></i></span></div>
+        
+    </div>
+    <div class="row">
+        <div class="col-md-12 myObj" style="word-break:break-all;text-align:justify">@Model.Objective</div>
+        </div>
+    <hr />
+    <div class="panel-group" id="myCollapsible">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseSkills">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-minus"></span>
+                                Skill and Expertise 
+                
+                            </h4>
+
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span style="cursor: pointer" id="addSkill" class="pull-right" data-toggle="modal" data-target="#skill">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <div id="collapseSkills" class="panel-collapse collapse in">
+                <div class="panel-body" style="word-break: break-all">
+                    <ul class="appendSkill">
+                        @if (Model.EmployeeSkills != null)
+                        {
+                            foreach (var a in @Model.EmployeeSkills)
+                            {
+                            <li id="skill-@a.Id">@a.Skill
+                                <span style="cursor:pointer" class="deleteSkill pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                <span style="cursor:pointer;margin-right:7px" class="editSkill pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                            </li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEmployment">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Employment </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addEmployment" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#employment">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div id="collapseEmployment" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-12 appendEmployment">
+                        @if (Model.Employeements != null)
+                        {
+                            foreach (var a in @Model.Employeements)
+                            {
+                            <div id="employment-@a.Id">
+                                <h4 class="text-primary">
+                                    <i class="glyphicon glyphicon-chevron-right"></i>@a.Designation <small> (@a.CompanyName)</small>
+                                    <span style="cursor:pointer" class="deleteEmployment pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editEmployment pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                    <small class="pull-right" style="margin-right: 15px">@a.FromYear - @a.ToYear</small>
+                                </h4>
+                                <p>
+                                    @a.Description
+                                </p>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseEducation">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Education
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addEducation" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#education">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseEducation" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="row appendEducation">
+                        @if (Model.Educations != null)
+                        {
+                            foreach (var a in @Model.Educations)
+                            {
+                            <div id="education-@a.Id">
+                                <div class="col-md-12">
+                                    <h4 class="text-primary">@a.Degree <small>(@a.FromYear - @a.ToYear)</small>
+                                        <span style="cursor:pointer" class="deleteEducation pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                        <span style="cursor:pointer;margin-right:7px" class="editEducation pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                    </h4>
+                                    <small>@a.College</small>
+                                </div>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseProject">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Projects
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addProject" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#project">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="collapseProject" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-md-12 appendProject">
+                        @if (Model.EmployeeProjects != null)
+                        {
+                            foreach (var a in @Model.EmployeeProjects)
+                            {
+                            <div id="project-@a.Id">
+                                <h4 class="text-primary">@a.Title
+                                    <span style="cursor:pointer" class="deleteProject pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editProject pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                                </h4>
+                                <p>@Html.Raw(a.Description)</p>
+                                <hr />
+                            </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseAchievements">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Achievements / Awards / Honors
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addAchievement" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#achievement">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseAchievements" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendAchievement">
+                        @if (Model.EmployeeAchivements != null)
+                        {
+                            foreach (var a in @Model.EmployeeAchivements)
+                            {
+                            <li id="achievement-@a.Id"> @Html.Raw(a.Achievement)
+
+                                <span style="cursor:pointer" class="deleteAchievement pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                <span style="cursor:pointer;margin-right:7px" class="editAchievement pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+
+                            </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseWorkshop">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Workshop / Conference / Seminar / Symposium
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addWorkshop" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#workshop">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseWorkshop" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendWorkshop">
+                        @if (Model.EmployeeSeminars != null)
+                        {
+                            foreach (var a in @Model.EmployeeSeminars)
+                            {
+                            <li id="workshop-@a.Id">@Html.Raw(a.Seminar)
+                                <span style="cursor:pointer" class="deleteWorkshop pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                <span style="cursor:pointer;margin-right:7px" class="editWorkshop pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+
+                            </li>
+                            }
+                        }
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapsePublications">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                Publications
+                            </h4>
+                        </a>
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addPublication" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#publication">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapsePublications" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="appendPublication">
+                        @if (Model.EmployeePublications != null)
+                        {
+                            foreach (var a in @Model.EmployeePublications)
+                            {
+                            <li id="publication-@a.Id"> @Html.Raw(a.Publication)
+
+                                <span style="cursor:pointer" class="deletePublication pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                <span style="cursor:pointer;margin-right:7px" class="editPublication pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+                            </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseRefences">
+                            <h4 class="panel-title"><span class="glyphicon glyphicon-plus"></span>
+                                References
+                            </h4>
+                        </a>
+
+                    </div>
+                    <div class="col-lg-1">
+                        <span id="addReferences" style="cursor: pointer" class="pull-right" data-toggle="modal" data-target="#references">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="collapseRefences" class="panel-collapse collapse">
+                <div class="panel-body appendReference">
+
+                    @if (Model.EmployeeReferences != null)
+                    {
+                        foreach (var a in @Model.EmployeeReferences)
+                        {
+                        <div id="reference-@a.Id">
+                            <div class="col-md-4">
+                                <h4 class="text-primary"><i class="glyphicon glyphicon-user"></i>@a.Reference
+                                    <span style="cursor:pointer" class="deleteReference pull-right" id="@a.Id"><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                    <span style="cursor:pointer;margin-right:7px" class="editReference pull-right" id="@a.Id"><i class="glyphicon glyphicon-edit"></i></span>
+
+                                </h4>
+                                <h4><small>@a.Designation</small></h4>
+                                <address>
+                                    <i class="glyphicon glyphicon-envelope"></i>@a.Email
+                                    <br />
+                                    <i class="glyphicon glyphicon-earphone"></i>@a.Phone
+                                </address>
+                            </div>
+                        </div>
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Modal -->
+
+
+<div class="modal fade" id="SocialLinks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Update Your Social Links</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Facebook Link</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">http://</span>
+                        <input type="text" class="form-control" id="FacebookLink" />
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Google+ Link</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">http://</span>
+                    <input type="text" class="form-control" id="GooglePlusLink" />
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">LinkedIn Link</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">http://</span>
+                    <input type="text" class="form-control" id="LinkedInLink" />
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Twitter Link</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">http://</span>
+                    <input type="text" class="form-control" id="TwitterLink" />
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSocialLink">Save</button>
+                <span class="load-for-sociallink btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="objective" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Objective </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <textarea class="form-control" id="txtObj" rows="8" placeholder="Enter Objective"></textarea>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnObj">Save</button>
+                <span class="load-for-obj btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { @role = "form", enctype = "multipart/form-data" }))
+{
+<div class="modal fade" id="modelUploadPhoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+         <div class="modal-dialog w500">
+             <div class="modal-content">
+                 <div class="modal-header modelTitleContainer">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                     <h3 class="modal-title text-center">Upload Photo</h3>
+                 </div>
+                 <div class="modal-body" style="padding: 30px 50px 5px 50px">
+                     <fieldset>
+                         <legend>Select Picture</legend>
+                         <div class="form-group col-lg-4">
+                             <input type="file" name="uploadPic" id="uploadPic" class="uploadPic">
+                         </div>
+                     </fieldset>
+                 </div>
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                     <button disabled type="submit" id="btnUploadPic" name="btnUploadPic" class="btn btn-success pull-right" value="uploadpic"><i class="glyphicon glyphicon-upload"></i> Upload</button>
+                 </div>
+             </div>
+         </div>
+         <!-- /.modal-dialog -->
+     </div>
+}
+
+<form action="#" method="post" id="myform">
+
+<div class="modal fade" id="skill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Add Skill and Expertise </h4>
+                <input type="hidden" id="SkillId" value="0" />
+            </div>
+            <div class="modal-body">
+                <ul class="mySkillSet">
+                    
+                </ul>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Skill and Expertise (Please add skill and expertise one by one)</label>
+                    <input type="text" class="form-control" id="SkillName" maxlength="200" placeholder="eg. Management">
+                    <span class="text-success alert-skill" style="display:none;font-style:italic">Success</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary hideskillbtn" id="btnSkill">Save</button>
+                <button type="button" class="btn btn-primary hideskillbtn" id="btnSkillSaveAndNew">Save and Add New</button>
+                <span class="load-for-skill btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="employment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Employment</h4>
+                 <input type="hidden" id="EmploymentId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Company/Organization/Institute Name</label>
+                    <input class="form-control" id="CompanyName" placeholder="Enter CompanyName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Designation</label>
+                    <input class="form-control" id="Designation" placeholder="Enter Designation">
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-3">
+                        <label for="exampleInputEmail1">From Month</label>
+                        
+                        @Html.DropDownList("DLFromMonth1",new SelectList((ViewBag.Months),"Value","Text"),new {@class = "form-control"})
+                    </div>
+                    <div class="col-xs-3" style="border-right: 1px solid #ccc;">
+                        <label for="exampleInputEmail1">From Year</label>
+                        @Html.TextBox("FromYear1", null, new { @placeholder = "Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                    
+                    <div class="col-xs-3">
+                        <label for="exampleInputEmail1">To Month</label>
+                         @Html.DropDownList("DLToMonth1",new SelectList((ViewBag.Months),"Value","Text"),new {@class = "form-control"})
+                    </div>
+
+                    <div class="col-xs-3">
+                        <label for="exampleInputEmail1">To Year</label>
+                        @Html.TextBox("ToYear1", null, new { @placeholder = "Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+
+                    
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description1" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEmployement">Save</button>
+                <span class="load-for-employee btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="education" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Education</h4>
+                 <input type="hidden" id="EducationId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">College Name</label>
+                    <input class="form-control" id="CollegeName" placeholder="Enter CollegeName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Degree</label>
+                    <input class="form-control" id="Degree" placeholder="Enter Degree">
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">From Year</label>
+                        @Html.TextBox("FromYear2", null, new { @placeholder = "From Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">To Year</label>
+                        @Html.TextBox("ToYear2", null, new { @placeholder = "To Year", @maxlength = "4", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <textarea class="form-control" id="Description2" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnEducation">Save</button>
+                <span class="load-for-education btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="project" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Project</h4>
+                 <input type="hidden" id="ProjectId" name="ProjectId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Title</label>
+                    <input class="form-control" id="Title" name="Title" placeholder="Enter Title">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+
+                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#Description3Div">
+                           
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                                <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                                <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                                <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                                <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                            </div>
+                        </div>
+                        <div id="Description3Div" class="text-editor">
+                            
+                        </div>
+
+                    <textarea class="form-control hide" id="Description3" name="Description3" placeholder="Enter Description"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnProject">Save</button>
+                <span class="load-for-project btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="achievement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add  Achievements / Awards / Honors </h4>
+                  <input type="hidden" id="AchievementId" name="AchievementId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <div class="btn-toolbar" data-role="editor1-toolbar" data-target="#Description4Div">
+                           
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                                <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                                <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                                <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                                <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                            </div>
+                        </div>
+                        <div id="Description4Div" class="text-editor">
+                            
+                        </div>
+                    <textarea class="form-control hide" id="Description4" name="Description4" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnAchievement">Save</button>
+                
+                <span class="load-for-achieve btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="workshop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add  Workshop / Conference / Seminar / Symposium </h4>
+                 <input type="hidden" id="WorkshopId" name="WorkshopId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <div class="btn-toolbar" data-role="editor2-toolbar" data-target="#Description5Div">
+                           
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                                <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                                <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                                <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                                <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                            </div>
+                        </div>
+                        <div id="Description5Div" class="text-editor">
+                            
+                        </div>
+                    <textarea class="form-control hide" id="Description5" name="Description5" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnWorkshop">Save</button>
+                <span class="load-for-workshop btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="publication" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Publications</h4>
+                   <input type="hidden" id="PublicationId" name="PublicationId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Description</label>
+                    <div class="btn-toolbar" data-role="editor3-toolbar" data-target="#Description6Div">
+                           
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                                <a class="btn btn-default" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                                <a class="btn btn-default" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                            </div>
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                                <a class="btn btn-default" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn btn-default" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                                <a class="btn btn-default" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                            </div>
+                        </div>
+                        <div id="Description6Div" class="text-editor">
+                            
+                        </div>
+
+                    <textarea class="form-control hide" id="Description6" name="Description6" placeholder="Enter Description"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnPublication">Save</button>
+                <span class="load-for-publication btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="references" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add References</h4>
+                <input type="hidden" id="ReferenceId" value="0"/>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Enter Name" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Designation</label>
+                    <input type="text" class="form-control" id="RDesignation" placeholder="Enter Designation" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="text" class="form-control" id="Email" placeholder="Enter Email" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Phone</label>
+                    <input type="text" class="form-control" id="Phone" placeholder="Enter Phone" />
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnReference">Save</button>
+                <span class="load-for-reference btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+  
+<div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Profile</h4>
+                 <input type="hidden" id="hdnUserID" value="0"/>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group row">
+                    <div class="col-xs-2">
+                        <label for="FirstName">&nbsp;</label>
+                        @Html.DropDownList("ProfTitle", new List<SelectListItem> {
+                       new SelectListItem { Text = "Dr.", Value = "Dr." }, 
+                           new SelectListItem { Text = "Miss.", Value = "Miss." }, 
+                           new SelectListItem { Text = "Mr.", Value = "Mr." }, 
+                           new SelectListItem { Text = "Mrs.", Value = "Mrs." },
+                           new SelectListItem { Text = "Ms.", Value = "Ms." },
+                           new SelectListItem { Text = "Rev.", Value = "Rev." }
+                       
+                   },new { @class = "form-control",@style = "padding:6px 5px"})
+
+                    </div>
+                    <div class="col-xs-4">
+                        <label for="FirstName">First Name</label>
+                        <input class="form-control" id="ProfFirstName" placeholder="First Name">
+                    </div>
+                    <div class="col-xs-2">
+                        <label for="FirstName">&nbsp;</label>
+                        <input class="form-control" id="ProfMiddleName" placeholder="Middle Name">
+                    </div>
+                    <div class="col-xs-4">
+                        <label for="LastName">Last Name</label>
+                        <input class="form-control" id="ProfLastName" placeholder="Last Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+
+
+                        <label for="exampleInputEmail1">Gender</label>
+                        @Html.DropDownList("ProfGender", new List<SelectListItem> { 
+                           new SelectListItem { Text = "Male", Value = "male" }, 
+                           new SelectListItem { Text = "Female", Value = "female" }},
+                           new { @class = "form-control" })
+                        </div>
+                    </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">Date Of Birth</label>
+                        @Html.TextBox("ProfDOB", null, new {  @class = "form-control" })
+                        </div>
+                    <div class="col-xs-6">
+                        <label for="LastName">Nationality (eg. Indian)</label>
+                        <input class="form-control" id="ProfNat" placeholder="Nationality">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">Phone</label>
+                        @Html.TextBox("ProfPhone", null, new { @placeholder = "Phone", @class = "form-control" })
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="exampleInputEmail1">Email</label>
+                        @Html.TextBox("ProfEmail", null, new { @placeholder = "Email", @class = "form-control" })
+                        <span class="text-danger err-myEmail" style="display:none"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <textarea class="form-control" id="ProfAddress" placeholder="Enter Address"></textarea>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnProfile">Save</button>
+                <span class="load-for-profile btn-load-process"><img src="@Url.Content("/Content/images/ajax-load.gif")" /></span>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="getusername" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h4 class="modal-title">Enter your username</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                        <label for="pusername">UserName</label>
+                        <input class="form-control usernamevalidation" name="pusername" required id="pusername" autocomplete="off" placeholder="UserName">
+                    <span style="color:red;display:none" class="err-username">Username already exist. Please select another one</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnUsername">Continue</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+    </form>
+
+<div class="modal fade" id="editWorkExp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Work Experience</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Year</label>
+                            @Html.TextBox("txtWorkExpYear", null, new { @class = "form-control onlydigit", @placement = "Year" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Month</label>
+                            @Html.TextBox("txtWorkExpMonth", null, new { @class = "form-control onlydigit", @placement = "Month" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnWorkExp">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<form action="/Home/ShareOnFacebook" method="post">
+    <div class="modal fade" id="modalShare" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modelTitleContainer">
+                    <button type="button" class="close closeShareModal" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title text-center">Congratulations</h2>
+                </div>
+                <div class="modal-body" style="padding: 30px 50px 5px 50px">
+                    <h4 class="text-success">Dear Member,</h4>
+                    <h5>You have successfully registred with meraRESU.ME
+                    </h5>
+                    <h5>Thank you.
+                    </h5>
+                    <h4 class="text-success">Share meraRESU.ME on Facebook
+                    </h4>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="btnShare" name="btnShare" type="submit">Share</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</form>
+<script src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+<link href="~/Content/css/ui.datepicker.css" rel="stylesheet" />
+
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<script src="~/Content/js/bootstrap-wysiwyg.js"></script>
+<script src="~/Content/js/jquery.hotkeys.js"></script>
+
+<script type="text/javascript">
+
+    $("#Description3Div").wysiwyg({ toolbarSelector: '[data-role=editor-toolbar]' });
+    $("#Description4Div").wysiwyg({ toolbarSelector: '[data-role=editor1-toolbar]' });
+    $("#Description5Div").wysiwyg({ toolbarSelector: '[data-role=editor2-toolbar]' });
+    $("#Description6Div").wysiwyg({ toolbarSelector: '[data-role=editor3-toolbar]' });
+
+    
+    $("#Description3Div").bind("keyup click", function () {
+        var Description3 = $(this).html();
+        $("#Description3").val(Description3);
+    });
+    $("#Description4Div").bind("keyup click", function () {
+        var Description4 = $(this).html();
+        $("#Description4").val(Description4);
+    });
+    $("#Description5Div").bind("keyup click", function () {
+        var Description5 = $(this).html();
+        $("#Description5").val(Description5);
+    });
+    $("#Description6Div").bind("keyup click", function () {
+        var Description6 = $(this).html();
+        $("#Description6").val(Description6);
+    });
+
+    $("#ProfDOB").datepicker({ dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, yearRange: '1905:@DateTime.Today.Year' });
+
+    $('.modal').attr("data-backdrop", "static");
+    $('#profile').attr("data-keyboard", false);
+
+    $(document).ready(function () {
+        $("#ui-datepicker-div").hide();
+        var flag2username = '@Session["nousername"]';
+        if (flag2username == "True") {
+            $('#getusername').attr("data-backdrop", "static");
+            $('#getusername').attr("data-keyboard", false);
+            $('#getusername').modal('toggle');
+        }
+
+        var firstLogin = '@Session["firstLogin"]';
+        
+        if (firstLogin.toLowerCase != "null") {
+            if (firstLogin == "True") {
+                $("#modalShare").modal("show");
+            }
+        }
+    });
+
+    $(".closeShareModal").click(function () {
+        $.getJSON("/Home/DestroySessionByName", { sessionName: "firstLogin" }, function () {
+        });
+    });
+
+
+    $(".onlydigit").live("keydown", function (event) {
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || (event.keyCode == 65 && event.ctrlKey === true) ||
+    (event.keyCode >= 35 && event.keyCode <= 39)) {
+            return;
+        }
+        else {
+            if (event.shiftKey || event.keyCode == 107 || event.keyCode == 189 || event.keyCode == 109 || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                event.preventDefault();
+            }
+        }
+    });
+
+    $(".usernamevalidation").live("keypress", function () {
+        var regex = new RegExp("^[a-zA-Z0-9-]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    $(".editObjective").live("click", function () {
+        $.getJSON("/Profile/GetObjective", null,
+            function (data) {
+                $("#txtObj").val(data);
+            });
+
+        $('#objective').modal('toggle');
+    });
+
+    $("#btnObj").click(function () {
+        var objective = $("#txtObj").val();
+        
+            $("#btnObj").hide();
+            $(".load-for-obj").fadeIn();
+            $.getJSON("/Profile/EditObjective", { objective: objective },
+                function (data) {
+                    $(".myObj").html(objective);
+                    $('#objective').modal('hide');
+
+                    $(".load-for-obj").hide();
+                    $("#btnObj").fadeIn();
+                });
+       
+    });
+
+    $(".editWorkExp").live("click", function () {
+        $("#txtWorkExpYear").val("");
+        $("#txtWorkExpMonth").val("");
+        $.getJSON("/Profile/GetWorkType", null,
+            function (data) {
+                $("#txtWorkExpYear").val(data.Year);
+                $("#txtWorkExpMonth").val(data.Month);
+            });
+
+        $('#editWorkExp').modal('toggle');
+    });
+
+    $("#btnWorkExp").click(function () {
+        var wexYear = $("#txtWorkExpYear").val().trim();
+        var wexMonth = $("#txtWorkExpMonth").val().trim();
+        if (wexYear == "") {
+            wexYear = 0;
+        }
+        if (wexMonth == "") {
+            wexMonth = 0;
+        }
+        $.getJSON("/Profile/EditWorkType", { wexYear: wexYear, wexMonth: wexMonth },
+            function (data) {
+                
+                $(".totWorkExp").html(wexYear + " year " + wexMonth + " month");
+                $('#editWorkExp').modal('hide');
+            });
+    });
+
+    $("#addEmployment").click(function () {
+        $("#CompanyName").val("");
+        $("#Designation").val("");
+        $("#FromYear1").val("");
+        $("#ToYear1").val("");
+        $("#Description1").val("");
+        $("#EmploymentId").val(0);
+    });
+
+
+    $(".editEmployment").live("click", function () {
+        var id = $(this).attr("id");
+        $('#employment').modal('toggle');
+        $.getJSON("/Profile/GetEmployeement", { id: id },
+            function (data) {
+                $("#CompanyName").val(data.CompanyName);
+                $("#Designation").val(data.Designation);
+                $("#FromYear1").val(data.FromYear);
+                $("#ToYear1").val(data.ToYear);
+
+                $("#DLFromMonth1").val(data.FromMonth);
+                $("#DLToMonth1").val(data.ToMonth);
+
+                $("#Description1").val(data.Description);             
+                $("#EmploymentId").val(data.Id);
+            });
+    });
+
+    $("#btnEmployement").click(function () {
+        var cname = $("#CompanyName").val();
+        var designation = $("#Designation").val();
+        var fromyear = $("#FromYear1").val();
+        var toyear = $("#ToYear1").val();
+        var des = $("#Description1").val();
+        var id = $("#EmploymentId").val();
+        var frommonth = $("#DLFromMonth1").val();
+        var tomonth =   $("#DLToMonth1").val();
+
+        if (cname != "" && designation != "" && des != "" && fromyear != "" && frommonth != "" && tomonth != "" && toyear != "") {
+            $("#btnEmployement").hide();
+            $(".load-for-employee").fadeIn();
+        }
+
+        $.getJSON("/Profile/AddEmployeement1", { id: id, cname: cname, designation: designation, fromyear: fromyear, toyear: toyear, des: des ,frommonth:frommonth,tomonth:tomonth},
+              function (data) {
+                  var a = data.split('#')[1];
+                  var b = data.split('#')[0];
+                  if (a == 1) {
+                      $(".appendEmployment :last").append(b);
+                  }
+                  if (a == 2) {
+                      $("#employment-" + id).html(b);
+                      $("#EmploymentId").val(0);
+                  }
+                  $(".load-for-employee").hide();
+                  $("#btnEmployement").fadeIn();
+                  $('#employment').modal('hide');
+                  
+
+              });
+    });
+    
+    $(".deleteEmployment").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteEmployeement", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#employment-" + id).hide();
+                }
+            });
+    });
+
+    $("#addEducation").click(function () {
+        $("#CollegeName").val("");
+        $("#Degree").val("");
+        $("#FromYear2").val("");
+        $("#ToYear2").val("");
+        $("#Description2").val("");
+        $("#EducationId").val(0);
+    });
+
+    $(".editEducation").live("click", function () {
+        var id = $(this).attr("id");
+        $('#education').modal('toggle');
+        $.getJSON("/Profile/GetEducation", { id: id },
+            function (data) {
+                $("#CollegeName").val(data.College);
+                $("#Degree").val(data.Degree);
+                $("#FromYear2").val(data.FromYear);
+                $("#ToYear2").val(data.ToYear);
+                $("#Description2").val(data.Description);
+                $("#EducationId").val(data.Id);
+            });
+    });
+
+    $(".deleteEducation").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteEducation", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#education-" + id).hide();
+                }
+            });
+    });
+
+
+    $("#btnEducation").live("click", function () {
+        var cname = $("#CollegeName").val();
+        var degree = $("#Degree").val();
+        var fromyear = $("#FromYear2").val();
+        var toyear = $("#ToYear2").val();
+        var des = $("#Description2").val();
+        var id = $("#EducationId").val();
+
+        
+        if (cname != "" && degree != "" && des != "" && fromyear != "" && toyear != "") {
+            $("#btnEducation").hide();
+            $(".load-for-education").fadeIn();
+        }
+        $.getJSON("/Profile/AddEducation", { id: id, cname: cname, degree: degree, fromyear: fromyear, toyear: toyear, des: des },
+               function (data) {
+                   var a = data.split('#')[1];
+                   var b = data.split('#')[0];
+                   if (a == 1) {
+                       $(".appendEducation :last").append(b);
+                   }
+                   if (a == 2) {
+                       $("#education-" + id).html(b);
+                       $("#EducationId").val(0);
+                   }
+
+                   $(".load-for-education").hide();
+                   $("#btnEducation").fadeIn();
+
+                   $('#education').modal('hide');
+               });
+    });
+    
+    $("#addProject").click(function () {
+        $("#Title").val("");
+        $("#Description3").val("");
+        $("#Description3Div").html("");
+        $("#ProjectId").val(0);
+    });
+
+    $(".editProject").live("click", function () {
+        var id = $(this).attr("id");
+        $('#project').modal('toggle');
+        $.getJSON("/Profile/GetProject", { id: id },
+            function (data) {
+                $("#Description3").val(data.Description);
+                $("#Description3Div").html(data.Description);
+                $("#Title").val(data.Title);
+                $("#ProjectId").val(data.Id);
+            });
+    });
+
+    $("#btnProject").click(function () {
+        var title = $("#Title").val();
+        var des = $("#Description3").val();
+        var id = $("#ProjectId").val();
+        
+        if (title != "" && des != "") {
+            $("#btnProject").hide();
+            $(".load-for-project").fadeIn();
+
+            //$.getJSON("/Profile/AddProject", { id: id, title: title, des: des },
+            //    function (data) {
+            //        if (data != null) {
+            //            var a = data.split('#')[1];
+            //            var b = data.split('#')[0];
+            //            if (a == 1) {
+            //                $(".appendProject :last").append(b);
+            //            }
+            //            if (a == 2) {
+            //                $("#project-" + id).html(b);
+            //                $("#ProjectId").val(0);
+            //            }
+
+            //            $(".load-for-project").hide();
+            //            $("#btnProject").fadeIn();
+            //            $('#project').modal('hide');
+            //        }
+            //    });
+           
+            var from = $("#myform");
+            $.ajax({
+                url: '/Profile/AddProject',
+                data: from.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+
+                    if (data != null) {
+                        var a = data.split('#')[1];
+                        var b = data.split('#')[0];
+                        if (a == 1) {
+                            $(".appendProject :last").append(b);
+                        }
+                        if (a == 2) {
+                            $("#project-" + id).html(b);
+                            $("#ProjectId").val(0);
+                        }
+
+                        $(".load-for-project").hide();
+                        $("#btnProject").fadeIn();
+                        $('#project').modal('hide');
+                    }
+                }
+            });
+        }
+    });
+
+    $(".deleteProject").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteProject", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#project-" + id).hide();
+                }
+            });
+    });
+    
+    $("#addAchievement").click(function () {
+        $("#Description4").val("");
+        $("#Description4Div").html("");
+        $("#AchievementId").val(0);
+    });
+
+    $(".editAchievement").live("click", function () {
+        var id = $(this).attr("id");
+        $('#achievement').modal('toggle');
+        $.getJSON("/Profile/GetAchievement", { id: id },
+            function (data) {
+                $("#Description4").val(data.Achievement);
+                $("#Description4Div").html(data.Achievement);
+                $("#AchievementId").val(data.Id);
+            });
+    });
+    
+    $(".deleteAchievement").live("click", function () {
+        var id = $(this).attr("id");
+
+        $.getJSON("/Profile/DeleteAchievement", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#achievement-" + id).hide();
+                }
+            });
+    });
+    
+    $("#btnAchievement").click(function () {
+        var des = $("#Description4").val();
+        var id = $("#AchievementId").val();
+
+        if (des != "") {
+            $("#btnAchievement").hide();
+            $(".load-for-achieve").fadeIn();
+
+            //$.getJSON("/Profile/AddAchievement", { id: id, des: des },
+            //    function (data) {
+            //        var a = data.split('#')[1];
+            //        var b = data.split('#')[0];
+            //        if (a == 1) {
+            //            $(".appendAchievement :last").append(b);
+            //        }
+
+            //        if (a == 2) {
+            //            $("#achievement-" + id).html(b);
+            //            $("#AchievementId").val(0);
+            //        }
+                                        
+            //        $(".load-for-achieve").hide();
+            //        $("#btnAchievement").fadeIn();
+
+            //        $('#achievement').modal('hide');
+            //    });
+            var from = $("#myform");
+            $.ajax({
+                url: '/Profile/AddAchievement',
+                data: from.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    var a = data.split('#')[1];
+                    var b = data.split('#')[0];
+                    if (a == 1) {
+                        $(".appendAchievement :last").append(b);
+                    }
+
+                    if (a == 2) {
+                        $("#achievement-" + id).html(b);
+                        $("#AchievementId").val(0);
+                    }
+
+                    $(".load-for-achieve").hide();
+                    $("#btnAchievement").fadeIn();
+
+                    $('#achievement').modal('hide');
+                }
+            });
+        }
+    });
+    
+    $("#addWorkshop").click(function () {
+        $("#Description5").val("");
+        $("#Description5Div").html("");
+        $("#WorkshopId").val(0);
+    });
+    
+    $(".editWorkshop").live("click", function () {
+        var id = $(this).attr("id");
+        $('#workshop').modal('toggle');
+        $.getJSON("/Profile/GetWorkshop", { id: id },
+            function (data) {
+                $("#Description5").val(data.Seminar);
+                $("#Description5Div").html(data.Seminar);
+                $("#WorkshopId").val(data.Id);
+            });
+    });
+    
+    $("#btnWorkshop").click(function () {
+        var des = $("#Description5").val();
+        var id = $("#WorkshopId").val();
+
+        if (des != "") {
+            $("#btnWorkshop").hide();
+            $(".load-for-workshop").fadeIn();
+
+            //$.getJSON("/Profile/AddWorkshop", { id: id, des: des },
+            //    function (data) {
+            //        var a = data.split('#')[1];
+            //        var b = data.split('#')[0];
+            //        if (a == 1) {
+            //            $(".appendWorkshop :last").append(b);
+            //        }
+            //        if (a == 2) {
+            //            $("#workshop-" + id).html(b);
+            //            $("#WorkshopId").val(0);
+            //        }
+                    
+            //        $(".load-for-workshop").hide();
+            //        $("#btnWorkshop").fadeIn();
+            //        $('#workshop').modal('hide');
+            //    });
+
+            var from = $("#myform");
+            $.ajax({
+                url: '/Profile/AddWorkshop',
+                data: from.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    var a = data.split('#')[1];
+                    var b = data.split('#')[0];
+                    if (a == 1) {
+                        $(".appendWorkshop :last").append(b);
+                    }
+                    if (a == 2) {
+                        $("#workshop-" + id).html(b);
+                        $("#WorkshopId").val(0);
+                    }
+
+                    $(".load-for-workshop").hide();
+                    $("#btnWorkshop").fadeIn();
+                    $('#workshop').modal('hide');
+                }
+            });
+        }
+    });
+
+    $(".deleteWorkshop").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteWorkshop", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#workshop-" + id).hide();
+                }
+            });
+    });
+    
+    $("#addPublication").click(function () {
+        $("#Description6").val("");
+        $("#Description6Div").html("");
+        $("#PublicationId").val(0);
+    });   
+    
+    $("#btnPublication").click(function () {
+        var des = $("#Description6").val();
+        var id = $("#PublicationId").val();
+        if (des != "") {
+            $("#btnPublication").hide();
+            $(".load-for-publication").fadeIn();
+
+            //$.getJSON("/Profile/AddPublication", { id: id, des: des },
+            //    function (data) {
+            //        var a = data.split('#')[1];
+            //        var b = data.split('#')[0];
+            //        if (a == 1) {
+            //            $(".appendPublication :last").append(b);
+            //        }
+            //        if (a == 2) {
+            //            $("#publication-" + id).html(b);
+            //            $("#PublicationId").val(0);
+            //        }
+
+                    
+            //        $(".load-for-publication").hide();
+            //        $("#btnPublication").fadeIn();
+            //        $('#publication').modal('hide');
+            //    });
+
+            var from = $("#myform");
+            $.ajax({
+                url: '/Profile/AddPublication',
+                data: from.serialize(),
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    var a = data.split('#')[1];
+                    var b = data.split('#')[0];
+                    if (a == 1) {
+                        $(".appendPublication :last").append(b);
+                    }
+                    if (a == 2) {
+                        $("#publication-" + id).html(b);
+                        $("#PublicationId").val(0);
+                    }
+
+
+                    $(".load-for-publication").hide();
+                    $("#btnPublication").fadeIn();
+                    $('#publication').modal('hide');
+                }
+            });
+        }
+    });
+
+    $(".editPublication").live("click", function () {
+        var id = $(this).attr("id");
+        $('#publication').modal('toggle');
+        $.getJSON("/Profile/GetPublication", { id: id },
+            function (data) {
+                $("#Description6").val(data.Publication);
+                $("#Description6Div").html(data.Publication);
+                $("#PublicationId").val(data.Id);
+            });
+    });
+
+    $(".deletePublication").live("click", function () {
+        var id = $(this).attr("id");      
+        $.getJSON("/Profile/DeletePublication", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#publication-" + id).hide();
+                }
+            });
+    });
+
+    $("#addReferences").click(function () {
+        $("#Name").val("");
+        $("#RDesignation").val("");
+        $("#Email").val("");
+        $("#Phone").val("");
+        $("#ReferenceId").val(0);
+    });
+
+    $(".editReference").live("click", function () {
+        var id = $(this).attr("id");
+        $('#references').modal('toggle');
+        $.getJSON("/Profile/GetReference", { id: id },
+            function (data) {
+                $("#Name").val(data.Reference);
+                $("#RDesignation").val(data.Designation);
+                $("#Email").val(data.Email);
+                $("#Phone").val(data.Phone);
+                $("#ReferenceId").val(data.Id);
+            });
+    });
+
+    $(".deleteReference").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteReference", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#reference-" + id).hide();
+                }
+            });
+    });
+
+    $("#btnReference").click(function () {
+        var id = $("#ReferenceId").val();
+        var name = $("#Name").val();
+        var designation = $("#RDesignation").val();
+        var email = $("#Email").val();
+        var phone = $("#Phone").val();
+        if (name != "" && designation!="") {
+            $("#btnReference").hide();
+            $(".load-for-reference").fadeIn();
+
+            $.getJSON("/Profile/AddReference", { id: id, name: name, designation: designation, email: email, phone: phone },
+                function (data) {
+                    var a = data.split('#')[1];
+                    var b = data.split('#')[0];
+                    if (a == 1) {
+                        $(".appendReference :last").append(b);
+                    }
+                    if (a == 2) {
+                        $("#reference-" + id).html(b);
+                        $("#ReferenceId").val(0);
+                    }
+
+                    $(".load-for-reference").hide();
+                    $("#btnReference").fadeIn();
+                    $('#references').modal('hide');
+                });
+        }
+    });
+    
+    $("#addSkill").click(function () {
+        $("#SkillName").val("");
+        $("#SkillId").val(0);
+        $(".alert-skill").text("").hide();
+        fetchMySkillSet();
+    });    
+
+    $(".editSkill").live("click", function () {
+        var id = $(this).attr("id");
+        fetchMySkillSet();
+        $('#skill').modal('toggle');
+        $(".alert-skill").text("").hide();
+        $.getJSON("/Profile/GetSkill", { id: id },
+            function (data) {
+                $("#SkillName").val(data.Skill);
+                $("#SkillId").val(data.Id);
+            });
+        
+    });
+    
+
+    $(".editSkill1").live("click", function () {
+        var id = $(this).attr("id");
+       // fetchMySkillSet();
+        //$('#skill').modal('toggle');
+        $(".alert-skill").text("").hide();
+        $.getJSON("/Profile/GetSkill", { id: id },
+            function (data) {
+                $("#SkillName").val(data.Skill);
+                $("#SkillId").val(data.Id);
+            });
+
+    });
+
+    function fetchMySkillSet() {
+        $(".mySkillSet").html("");
+        
+        $.getJSON("/Profile/FetchMySkillSet", null,
+            function (data) {
+                if (data.length > 0) {
+                    var skillset = "";
+                    $.each(data, function (index, value) {
+                        skillset += "<li>" + value.Text + "<span style='cursor:pointer;margin-right:7px' class='editSkill1 pull-right' id='" + value.Value + "'><i class='glyphicon glyphicon-edit'></i></span></li>";
+                    });
+                    $(".mySkillSet").html(skillset);
+                }
+            });
+    }
+
+    $(".deleteSkill").live("click", function () {
+        var id = $(this).attr("id");
+        $.getJSON("/Profile/DeleteSkill", { id: id },
+            function (data) {
+                if (data == true) {
+                    $("#skill-" + id).hide();
+                }
+            });
+    });
+
+    $("#btnSkill").click(function () {
+        AddSkill();
+        $('#skill').modal('hide');
+    });
+        
+    $("#btnSkillSaveAndNew").click(function () {
+        AddSkill();
+        $("#SkillName").val("").focus();
+    });
+
+    function AddSkill() {
+        var skill = $("#SkillName").val().trim();
+        var id = $("#SkillId").val();
+        
+        if (skill != "") {
+            $(".hideskillbtn").hide();
+            $(".load-for-skill").fadeIn();
+            $.getJSON("/Profile/AddSkill", { id: id, skill: skill },
+                function (data) {
+                    
+                    var a = data.split('|^|')[1];
+                    var b = data.split('|^|')[0];
+                    if (a == 1) {
+                        
+                        $(".appendSkill :last").append(b);
+                        $(".mySkillSet :last").append("<li>" + skill + "</li>");
+                        $(".alert-skill").text("'"+skill + "' added successfully as your skill. Add new skill").fadeIn();
+                    }
+                    if (a == 2) {
+                        $("#skill-" + id).html(b);
+                        $("#SkillId").val(0);
+                        fetchMySkillSet();
+                    }
+                    
+                    $(".load-for-skill").hide();
+                    $(".hideskillbtn").fadeIn();
+                });
+        }
+    }
+
+    $(".editProfile").live("click", function () {
+        var id = $(this).attr("id");
+        $("#hdnUserID").val(id);
+        $('#profile').modal('toggle');
+        $.getJSON("/Profile/GetProfileDetail", { id: id },
+            function (data) {
+                $("#ProfFirstName").val(data.FirstName);
+                $("#ProfLastName").val(data.LastName);
+                $("#ProfPhone").val(data.Phone);
+                $("#ProfEmail").val(data.Email);
+                $("#ProfAddress").val(data.Address);
+                $("#ProfTitle").val(data.Title);
+                $("#ProfMiddleName").val(data.MiddleName);
+                var value = new Date(parseInt(data.DateOfBirth.replace("/Date(", "").replace(")/", ""), 10));
+                
+                $("#ProfDOB").val(value.getDate() + "-" + parseInt(value.getMonth() + 1) + "-" + value.getFullYear());
+                
+                $("#ProfNat").val(data.Nationality);
+                $("#ProfGender").val(data.Gender);
+            });
+    });
+
+    var flag2err_email = true;
+    $("#ProfEmail").keyup(function () {
+        var email = $(this).val().trim();
+        if (email != "") {
+            $.getJSON("/Profile/CheckForEmail", { email: email },
+                function (data) {
+                    if (data) {
+                        $(".err-myEmail").text("Email not available").fadeIn();
+                        $("#ProfEmail").css("border-color", "red");
+                        flag2err_email = false;
+                    }
+                    else {
+                        $(".err-myEmail").text("").hide();
+                        $("#ProfEmail").css("border-color", "#cccccc");
+                        flag2err_email = true;
+                    }
+                });
+        }
+        else {
+            $(".err-myEmail").text("Please enter your email").fadeIn();
+            $("#ProfEmail").css("border-color", "red");
+            flag2err_email = false;
+        }
+    });
+
+    $("#btnProfile").click(function () {
+        var id = $("#hdnUserID").val();
+        var fname = $("#ProfFirstName").val();
+        var lname = $("#ProfLastName").val();
+        var phone = $("#ProfPhone").val();
+        var email = $("#ProfEmail").val();
+        var address = $("#ProfAddress").val();
+        var dob = $("#ProfDOB").val();
+        var nationlity = $("#ProfNat").val();
+        var gender = $("#ProfGender").val();
+        var title = $("#ProfTitle").val();
+        var mname = $("#ProfMiddleName").val();
+        
+        if (flag2err_email) {
+            $("#btnProfile").hide();
+            $(".load-for-profile").fadeIn();
+
+            $.getJSON("/Profile/UpdateProfile", { id: id, fname: fname, lname: lname, phone: phone, email: email, address: address, dob: dob, nationlity: nationlity, gender: gender ,title:title,mname:mname},
+                   function (data) {
+
+                       if (data != null) {
+
+                           $("#pName").html(data.FirstName + " " + data.LastName);
+                           $("#paddr").html(data.Address);
+                           $("#pphone").html(data.Phone);
+                           $("#pemail").html(data.Email);
+                           $("#pgender").html(data.Gender);
+                           var value = new Date(parseInt(data.DateOfBirth.replace("/Date(", "").replace(")/", ""), 10));
+
+                           $("#pdob").html(value.getDate() + "-" + parseInt(value.getMonth() + 1) + "-" + value.getFullYear());
+                           $("#pnat").html(data.Nationality);
+
+                       }
+                       
+                       $(".load-for-profile").hide();
+                       $("#btnProfile").fadeIn();
+                       $('#profile').modal('hide');
+                   });
+        }
+    });
+    
+    var flag2err_username = false;
+    $("#pusername").keyup(function () {
+        $(".err-username").hide();
+        $("#pusername").css("border", "1px solid #cccccc");
+        var term = $(this).val().trim();
+        if (term != "") {
+            $.getJSON("/Profile/CheckForUsername", { term: term },
+                function (data) {
+                    if (data) {
+                        $(".err-username").fadeIn();
+                        $("#pusername").css("border", "1px solid red");
+                        flag2err_username = false;
+                    }
+                    else {
+                        flag2err_username = true;
+                    }
+                });
+        }
+        else {
+            flag2err_username = false;
+        }
+    });
+    $("#btnUsername").click(function () {
+        
+        if (!flag2err_username) {
+            return false;
+        }
+    });
+
+    $(".uploadPic").change(function () {
+        var fileName = new String();
+        fileName = $(this).val();
+
+        if (!validExtension(fileName)) {
+            $(this).css("border", "1px solid red");
+            $("#btnUploadPic").prop("disabled", true);
+        }
+        else {
+            $(this).css("border", "none");
+            $("#btnUploadPic").prop("disabled", false);
+        }
+
+    });
+
+    function validExtension(fileName) {
+
+        var fileExtension = new String();
+        fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+
+        var validFileExtensions = new Array("jpg", "png", "gif", "bmp");
+
+        var flag = false;
+        var size = ($(this).size) / 1024;
+
+        for (var index = 0; index < validFileExtensions.length; index++) {
+            if (fileExtension.toLowerCase() == validFileExtensions[index].toString().toLowerCase()) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+    
+    $("#editSocialLinks").click(function () {
+        $("#FacebookLink").val("");
+        $("#GooglePlusLink").val("");
+        $("#LinkedInLink").val("");
+        $("#TwitterLink").val("");
+
+        $.getJSON("/Profile/FetchSocialLinks", null,
+            function (data) {
+                $("#FacebookLink").val(data.FacebookLink);
+                $("#GooglePlusLink").val(data.GooglePlusLink);
+                $("#LinkedInLink").val(data.LinkedInLink);
+                $("#TwitterLink").val(data.TwitterLink);
+            });
+    });
+
+    $("#btnSocialLink").click(function () {
+        var FacebookLink = $("#FacebookLink").val().trim();
+        var GoogleLink = $("#GooglePlusLink").val().trim();
+        var LinkedInLink = $("#LinkedInLink").val().trim();
+        var TwitterLink = $("#TwitterLink").val().trim();
+        
+        $.getJSON("/Profile/UpdateSocialLinks", { FacebookLink: FacebookLink, GoogleLink: GoogleLink, LinkedInLink: LinkedInLink, TwitterLink: TwitterLink },
+            function (data) {
+                $("#SocialLinks").modal("hide");
+                $("#lnkFacebok").attr("href", "http://" + FacebookLink);
+                $("#lnkGoogle").attr("href", "http://" + GoogleLink);
+                $("#lnkLinkedIn").attr("href", "http://" + LinkedInLink);
+                $("#lnkTwitter").attr("href", "http://" + TwitterLink);
+            });
+    });
+
+   
+
+
+
+</script>
+
+
+
